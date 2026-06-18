@@ -1,0 +1,1346 @@
+/* Taruh ini di baris paling atas file style.css */
+html {
+    scroll-behavior: smooth !important;
+    scroll-padding-top: 85px !important; /* Menambah jarak ganjalan agar tidak terlalu ke atas */
+}
+/* ==========================================================================
+   1. RESET & DASAR GLOBAL
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #FDFBF7; /* Background Cream Lembut */
+    color: #4A3E3D;            /* Teks Utama Cokelat Hangat (Kontras Tinggi) */
+    line-height: 1.6;
+}
+
+/* Link Default Berwarna Emas Lembut */
+a {
+    color: #C5A059; 
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #AA8237;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   2. NAVIGASI UTAMA (NAVBAR) & IKON AKUN
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px; /* Padding kiri-kanan diperlebar agar seimbang */
+    background-color: #F5EFEB; /* Cream Sedikit Lebih Gelap */
+    border-bottom: 1px solid #E6DCD3;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #C5A059; /* Identitas Emas */
+    letter-spacing: 0.5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 35px; /* Jarak antar menu navigasi diperlebar agar rapi */
+}
+
+.nav-links a {
+    color: #4A3E3D;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* Komponen Ikon Profil Kanan Atas */
+.profile-icon-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    margin-left: 10px; /* Jarak tambahan dari menu terakhir */
+}
+
+.profile-icon {
+    width: 34px;
+    height: 34px;
+    border: 2px solid #C5A059;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #C5A059;
+    font-size: 16px;
+    background-color: #FDFBF7;
+    transition: transform 0.2s;
+}
+
+.profile-icon-wrapper:hover .profile-icon {
+    transform: scale(1.05);
+}
+
+/* Notifikasi Titik Merah */
+.profile-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 9px;
+    height: 9px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    border: 1.5px solid #F5EFEB;
+}
+
+/* ==========================================================================
+   3. HALAMAN AUTH (SIGN IN & SIGN UP)
+   ========================================================================== */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh; 
+    padding: 40px 20px;
+}
+
+.auth-card {
+    background-color: #F5EFEB; 
+    padding: 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 450px; 
+    border: 1px solid #E6DCD3;
+    box-shadow: 0 4px 20px rgba(74, 62, 61, 0.06); 
+}
+
+.auth-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #C5A059;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; 
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: #7A6B69;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    background-color: #FDFBF7; 
+    border: 1px solid #E6DCD3;
+    border-radius: 4px;
+    color: #4A3E3D;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #C5A059;
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
+}
+
+.form-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: #C5A059;
+    color: #FDFBF7;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover {
+    background-color: #AA8237;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #7A6B69;
+}
+
+/* ==========================================================================
+   4. KONTEN DASHBOARD UTAMA (LANDING PAGE - INDEX)
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Memposisikan seluruh bagian section di tengah */
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 95vh; /* Mengambil hampir seluruh tinggi layar browser saat dibuka */
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), 
+                url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #FDFBF7;
+    padding: 0 20px;
+}
+
+/* Tulisan Kecil Welcome Guest di Atas Judul Utama */
+.hero-welcome {
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #C5A059; /* Warna Emas */
+    margin-bottom: 15px;
+    animation: fadeInDown 1s ease;
+}
+
+.hero h1 {
+    font-size: 54px;
+    font-weight: 700;
+    font-family: 'Playfair Display', 'Georgia', serif; /* Font klasik ala hotel mewah */
+    color: #FDFBF7;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 18px;
+    color: #E6DCD3;
+    max-width: 650px;
+    margin: 0 auto 30px auto;
+    font-style: italic;
+    line-height: 1.7;
+}
+/* Tata Letak Deskripsi Hotel */
+.hotel-description-section {
+    width: 100%;
+    max-width: 800px; /* Batas lebar teks agar nyaman dibaca */
+    text-align: center; /* Judul H2 di tengah */
+    margin-bottom: 80px; /* Jarak renggang yang signifikan menuju lokasi */
+}
+
+.hotel-description-section p {
+    text-align: justify; /* Isi teks rata kiri-kanan */
+    font-size: 16px;
+    color: #4A3E3D;
+    line-height: 1.8;
+    margin-top: 20px;
+}
+
+/* Tata Letak Lokasi & Google Maps */
+.map-section {
+    width: 100%; 
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.map-section h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.map-section p {
+    color: #7A6B69;
+    margin-bottom: 35px; /* Memberikan spasi renggang sebelum kotak map */
+}
+
+/* Pengaturan Kotak Peta Melebar Penuh (Full-Width) */
+.map-container {
+    border: 2px solid #E6DCD3;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%; /* Mengisi penuh ruang container */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 500px; /* Tinggi peta disesuaikan agar lebih luas */
+    border: 0;
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   5. FOOTER (ABOUT US & QUICK LINKS)
+   ========================================================================== */
+.footer {
+    background-color: #1A1513; 
+    color: #E6DCD3;
+    padding: 60px 50px 40px 50px;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 40px;
+    justify-content: space-between;
+}
+
+.footer-about {
+    flex: 2;
+    min-width: 280px;
+}
+
+.footer-about .footer-logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #C5A059;
+    margin-bottom: 15px;
+}
+
+.footer-about p {
+    font-size: 14px;
+    color: #B5A8A3;
+    line-height: 1.7;
+    max-width: 500px;
+}
+
+.footer-socials {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.footer-socials a {
+    color: #B5A8A3;
+    font-size: 14px;
+}
+
+.footer-socials a:hover {
+    color: #C5A059;
+    text-decoration: none;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 150px;
+}
+
+.footer-section h4 {
+    font-size: 16px;
+    color: #FDFBF7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #332A27;
+    padding-bottom: 8px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-links a {
+    color: #B5A8A3;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    color: #C5A059;
+    padding-left: 5px;
+}
+
+/* ==========================================================================
+   6. CAROUSEL / SLIDER FASILITAS & KAMAR (SCROLL SAMPING)
+   ========================================================================== */
+.facilities-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 80px auto;
+    text-align: center;
+}
+
+.facilities-section h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #4A3E3D;
+}
+
+/* Wadah pembungkus scroll */
+.slider-container {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto; /* Mengaktifkan scroll horizontal */
+    scroll-snap-type: x mandatory; /* Efek magnet saat digeser */
+    padding: 15px 5px 30px 5px;
+    scrollbar-width: thin; /* Desain scrollbar tipis untuk Firefox */
+    scroll-behavior: smooth;
+}
+
+/* Kustomisasi rel scrollbar untuk Chrome/Safari */
+.slider-container::-webkit-scrollbar {
+    height: 8px;
+}
+.slider-container::-webkit-scrollbar-track {
+    background: #F5EFEB;
+    border-radius: 10px;
+}
+.slider-container::-webkit-scrollbar-thumb {
+    background: #C5A059;
+    border-radius: 10px;
+}
+
+.slider-card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+    background-color: #F5EFEB;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #E6DCD3;
+    box-shadow: 0 4px 12px rgba(74, 62, 61, 0.04);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    
+    /* TAMBAHKAN 2 BARIS INI */
+    color: #4A3E3D !important; /* Memaksa teks deskripsi tetap cokelat, bukan warna link */
+    text-decoration: none !important; /* Menghilangkan garis bawah tautan */
+}
+
+/* Biar pas di-hover kartu agak sedikit terangkat */
+.slider-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(197, 160, 89, 0.15);
+    text-decoration: none;
+}
+/* Pembungkus gambar dan teks melayang seperti gambar junior suite */
+.slider-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+}
+
+.slider-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hamparan judul di atas gambar (Sesuai image_d419be.png) */
+.slider-tag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(74, 62, 61, 0.6); /* Efek gelap transparan */
+    color: #FDFBF7;
+    padding: 12px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+}
+
+/* Deskripsi di bawah gambar */
+.slider-info {
+    padding: 20px;
+    font-size: 14px;
+    color: #4A3E3D;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. STYLING SPESIFIK DETAIL KAMAR (ROOMS PAGE)
+   ========================================================================== */
+.room-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #AA8237; /* Warna emas gelap untuk harga */
+    margin-bottom: 12px;
+}
+
+.room-text {
+    font-size: 14px;
+    color: #7A6B69;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Mengatur daftar fasilitas list */
+.room-features {
+    list-style: none; /* Menghilangkan bulatan bawaan browser */
+    padding: 0;
+    margin: 15px 0;
+    font-size: 14px;
+    color: #4A3E3D;
+}
+
+.room-features li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara emoji ikon dengan teks */
+}
+
+/* ==========================================================================
+   8. LAYOUT PREMIUM DETAIL KAMAR (ALA PULLMAN STYLE)
+   ========================================================================== */
+/* Hero Banner Kamar Full-Screen Singel */
+.room-hero-banner {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* Mengambil 70% tinggi layar */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #FDFBF7;
+}
+
+.room-hero-title h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    color: #FDFBF7; /* Putih bersih melayang di atas foto */
+}
+
+/* Container Konten Ringkas ala Pullman */
+.room-detail-container {
+    max-width: 900px; /* Lebih ramping di tengah agar elegan */
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.room-intro-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #4A3E3D;
+    text-align: justify;
+    margin-bottom: 45px;
+}
+
+/* Grid Fasilitas Menggunakan Ikon Baris */
+.amenities-title {
+    font-size: 22px;
+    color: #C5A059;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #E6DCD3;
+    padding-bottom: 10px;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 15px;
+    color: #4A3E3D;
+    background-color: #F5EFEB;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #E6DCD3;
+}
+
+.amenity-icon {
+    font-size: 24px;
+    color: #C5A059; /* Ikon warna emas */
+}
+
+/* Tombol Booking Center Akbar */
+.booking-action-box {
+    text-align: center;
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #F5EFEB;
+    border-radius: 8px;
+    border: 1px solid #E6DCD3;
+}
+
+.booking-action-box p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #AA8237;
+    margin-bottom: 15px;
+}
+
+.btn-pullman-book {
+    display: inline-block;
+    background-color: #C5A059;
+    color: #FDFBF7 !important;
+    padding: 14px 40px;
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-pullman-book:hover {
+    background-color: #1A1513; /* Berubah jadi hitam eboni saat di-hover biar kontras premium */
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.reviews-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto 80px auto;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: 28px;
+    color: #4A3E3D;
+    margin-bottom: 10px;
+}
+
+.reviews-sub {
+    font-size: 15px;
+    color: #7A6B69;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.review-slider {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 5px 25px 5px;
+    scrollbar-width: thin;
+}
+
+/* Custom Scrollbar Review */
+.review-slider::-webkit-scrollbar { height: 6px; }
+.review-slider::-webkit-scrollbar-track { background: #F5EFEB; }
+.review-slider::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 10px; }
+
+.review-card {
+    flex: 0 0 350px; /* Ukuran lebar kotak review */
+    scroll-snap-align: start;
+    background-color: #F5EFEB;
+    border-radius: 8px;
+    padding: 30px;
+    border: 1px solid #E6DCD3;
+    box-shadow: 0 4px 15px rgba(74, 62, 61, 0.03);
+    text-align: center;
+}
+
+.review-stars {
+    color: #C5A059;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #4A3E3D;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.review-user {
+    font-weight: 600;
+    font-size: 14px;
+    color: #AA8237;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   10. HALAMAN BOOKING - AVAILABLE ROOMS (ALA ACCOR HOTELS)
+   ========================================================================== */
+.booking-header {
+    background-color: #1A1513;
+    color: #FDFBF7;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 3px solid #C5A059;
+}
+
+.booking-header h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #C5A059;
+    margin-bottom: 5px;
+}
+
+.booking-header p {
+    font-size: 14px;
+    color: #E6DCD3;
+}
+
+/* Container utama list kamar tersedia */
+.available-rooms-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Kartu Kamar Horizontal ala Accor */
+.accor-room-card {
+    display: flex;
+    background-color: #F5EFEB;
+    border: 1px solid #E6DCD3;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.accor-room-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.1);
+}
+
+/* Bagian Kiri: Foto Kamar */
+.accor-room-img {
+    flex: 0 0 350px;
+    position: relative;
+}
+
+.accor-room-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Bagian Tengah: Informasi Kamar */
+.accor-room-details {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #E6DCD3;
+}
+
+.accor-room-details h3 {
+    font-size: 22px;
+    color: #4A3E3D;
+    margin-bottom: 10px;
+}
+
+.accor-room-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+    color: #7A6B69;
+    margin-bottom: 15px;
+}
+
+.accor-room-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #4A3E3D;
+}
+
+.accor-room-features-list li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bagian Kanan: Box Harga & Aksi Pemesanan */
+.accor-room-pricing {
+    flex: 0 0 250px;
+    padding: 25px;
+    background-color: #FAF6F2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.price-label {
+    font-size: 12px;
+    color: #7A6B69;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.actual-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #AA8237;
+    margin: 5px 0 20px 0;
+}
+
+.btn-accor-select {
+    width: 100%;
+    background-color: #C5A059;
+    color: #FDFBF7 !important;
+    padding: 12px 0;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.btn-accor-select:hover {
+    background-color: #1A1513;
+}
+
+/* Responsif untuk layar HP kecil */
+@media (max-width: 768px) {
+    .accor-room-card {
+        flex-direction: column;
+    }
+    .accor-room-img {
+        flex: 0 0 200px;
+    }
+    .accor-room-details {
+        border-right: none;
+        border-bottom: 1px solid #E6DCD3;
+    }
+    .accor-room-pricing {
+        flex: 0 0 auto;
+        padding: 20px;
+    }
+}
+
+/* ==========================================================================
+   11. STYLE INTERAKTIF MODAL RESERVASI (SERASI DENGAN SIGN-IN / SIGN-UP)
+   ========================================================================== */
+.booking-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 21, 19, 0.7); /* Redup pekat elegan */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.booking-modal-content {
+    background-color: #FDFBF7; /* Putih ivory serasi dengan form login */
+    width: 100%;
+    max-width: 520px;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Tombol Close Pojok Atas Minimalis */
+.modal-header {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 10;
+}
+
+.close-modal-btn {
+    font-size: 28px;
+    cursor: pointer;
+    color: #7A6B69;
+    transition: color 0.2s;
+}
+
+.close-modal-btn:hover {
+    color: #1A1513;
+}
+
+/* Container Form Internal Ala Sign-In/Up */
+.auth-form-container {
+    padding: 40px 35px;
+    text-align: left;
+}
+
+/* 1. Mengubah Warna Judul Reservasi Menjadi Emas Soft Khas Hotelku */
+.auth-form-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #D2A96B; /* WARNA EMAS SOFT DI TENGAH */
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.auth-subtitle {
+    font-size: 14px;
+    color: #7A6B69;
+    margin-bottom: 30px;
+}
+
+/* Elemen Input & Baris */
+.modal-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.modal-form .form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.modal-form .form-row .form-group {
+    flex: 1;
+}
+
+.modal-form label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4A3E3D;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.modal-form input, .modal-form select {
+    padding: 12px 14px;
+    border: 1px solid #E6DCD3;
+    background-color: #FDFBF7;
+    border-radius: 4px;
+    color: #1A1513;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Efek Fokus Input Box */
+.modal-form input:focus, .modal-form select:focus {
+    border-color: #1A1513; /* Menjadi hitam solid saat aktif mirip form login */
+    box-shadow: 0 0 0 3px rgba(26, 21, 19, 0.05);
+}
+
+/* Kolom Readonly Kamar Terpilih */
+.input-readonly {
+    background-color: #F5EFEB !important;
+    font-weight: bold;
+    color: #AA8237 !important;
+    border-color: #E6DCD3 !important;
+}
+
+/* Tombol Submit Utama Style Sign-In */
+.btn-auth-submit {
+    width: 100%;
+    background-color: #D2A96B; /* MENGGANTI WARNA HITAM JADI EMAS */
+    color: #FDFBF7 !important; /* TULISAN PUTIH TETAP KONTRAS */
+    border: none;
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-auth-submit:hover {
+    background-color: #C5A059; /* Berubah emas saat disorot */
+}
+
+.btn-auth-submit:active {
+    transform: scale(0.98);
+}
+
+/* Styling Tambahan Kotak Ucapan Terima Kasih */
+.success-icon {
+    font-size: 56px;
+    color: #D2A96B;
+    margin-bottom: 15px;
+    animation: popIcon 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIcon {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.success-details-box {
+    background-color: #FDFBF7;
+    border: 1px dashed #E6DCD3;
+    padding: 18px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.success-details-box p {
+    font-size: 14px;
+    color: #8A7E72;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   12. STYLING LAYOUT ROOMS SELANG-SELING (Z-PATTERN) & DETAIL LUXURY
+   ========================================================================== */
+.room-z-container {
+    max-width: 1150px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 70px; /* Jarak antar tipe kamar agar lega dan elegan */
+}
+
+.room-z-row {
+    display: flex;
+    align-items: center;
+    background-color: #FDFBF7; /* Latar belakang putih ivory */
+    border: 1px solid #E6DCD3;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+/* LOGIKA KUNCI: Baris nomor Genap (2, 4, dst) posisi Gambarnya otomatis dibalik ke kanan */
+.room-z-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.room-z-img {
+    flex: 1;
+    height: 440px;
+    overflow: hidden;
+}
+
+.room-z-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.room-z-row:hover .room-z-img img {
+    transform: scale(1.03); /* Efek zoom tipis saat card disorot */
+}
+
+/* Area Teks Kanan/Kiri */
+.room-z-text {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.room-z-badge {
+    align-self: flex-start;
+    background-color: #F5EFEB;
+    color: #D2A96B;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    border: 1px solid #E6DCD3;
+}
+
+.room-z-text h3 {
+    font-size: 32px;
+    color: #1A1513;
+    margin-bottom: 5px;
+}
+
+.room-z-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+    color: #8A7E72;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.room-long-description {
+    font-size: 14px;
+    color: #6E615F;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Baris Galeri Mini Fasilitas */
+.room-facility-gallery {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.facility-thumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #F9F5F0;
+    padding: 6px 12px;
+    border: 1px solid #E6DCD3;
+    border-radius: 6px;
+}
+
+.facility-thumb img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.facility-thumb span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8A7E72;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Footer Harga & Tombol di Dalam Baris */
+.room-z-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px dashed #E6DCD3;
+    padding-top: 20px;
+}
+
+.z-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: #D2A96B; /* Warna Emas Sign-In Khas */
+}
+
+.z-price small {
+    font-size: 13px;
+    color: #8A7E72;
+    font-weight: normal;
+}
+
+.btn-room-z {
+    background-color: #1A1513;
+    color: #FDFBF7;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-room-z:hover {
+    background-color: #D2A96B; /* Berubah jadi emas saat disorot */
+}
+
+/* Responsif Layar HP (Otomatis Menjadi Vertikal Tegak) */
+@media (max-width: 850px) {
+    .room-z-row, .room-z-row:nth-child(even) {
+        flex-direction: column;
+    }
+    .room-z-img {
+        width: 100%;
+        height: 250px;
+    }
+    .room-z-text {
+        padding: 25px;
+    }
+}
+
+/* ==========================================================================
+   LAYOUT DETAIL KAMAR & CAROUSEL INTERAKTIF
+   ========================================================================== */
+.room-carousel-container {
+    position: relative;
+    max-width: 900px;
+    margin: 30px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.room-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.room-slide {
+    min-width: 100%;
+    position: relative;
+}
+
+.room-slide img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 0;
+    background: rgba(26, 21, 19, 0.75);
+    color: #fff;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* Tombol Navigasi Melayang Presisi */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(210, 169, 107, 0.85);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.carousel-btn:hover { 
+    background: #B88E53; 
+    transform: translateY(-50%) scale(1.05);
+}
+
+.btn-prev { left: 20px; }
+.btn-next { right: 20px; }
+
+/* Box Info Spesifikasi */
+.room-detail-info-box {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #FFF;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #E6DCD3;
+}
+
+.room-spec-meta {
+    margin-bottom: 25px;
+    font-size: 16px;
+    color: #8A7E72;
+    font-weight: 600;
+    display: flex;
+    gap: 30px;
+    border-bottom: 1px solid #F0EAE4;
+    padding-bottom: 15px;
+}
+
+.room-detail-info-box h3 {
+    color: #D2A96B;
+    margin-bottom: 15px;
+}
+
+.room-detail-info-box p {
+    color: #6E615F;
+    line-height: 1.8;
+}
+
+/* Fasilitas Badges di Bagian Bawah */
+.room-facilities-badges {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FDFBF9;
+    border: 1px solid #E6DCD3;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #6E615F;
+    font-weight: 500;
+}
