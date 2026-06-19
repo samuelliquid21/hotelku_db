@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Available Rooms</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+</head>
+<body>
+
+    <!-- Navbar Atas -->
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="rooms.html">Rooms</a>
+            <a href="booking.html">Booking</a>
+            
+            <div class="profile-icon-wrapper" onclick="location.href='sign-in.html'">
+                <div class="profile-icon">👤</div>
+                <div class="profile-badge"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Status Pencarian -->
+    <header class="booking-header">
+        <h2>Kamar Yang Tersedia</h2>
+        <p>Menampilkan opsi akomodasi terbaik untuk kenyamanan menginap Anda</p>
+    </header>
+
+<div class="available-rooms-container">
+    
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Standard Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Standard Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 24 m²</span>
+                <span>👥 Max 2 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Pancuran Air Panas / Dingin</li>
+                <li>✓ AC Control & Free Wi-Fi Kencang</li>
+                <li>✓ Air Mineral Botol Gratis Harian</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 350.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Standard Room')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" alt="Deluxe Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Deluxe Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 32 m²</span>
+                <span>👥 Max 2 Dewasa, 1 Anak</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Smart TV 43" (Netflix Ready)</li>
+                <li>✓ Meja Kerja & Sofa Santai Minimalis</li>
+                <li>✓ Pemandangan Kota Berjendela Besar</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 600.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Deluxe Room')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500" alt="Superior Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Superior Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 45 m²</span>
+                <span>👥 Max 3 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Kasur Ukuran King Premium</li>
+                <li>✓ Kamar Mandi Marmer dengan Bathtub</li>
+                <li>✓ Fasilitas Kopi Kapsul Premium (Espresso Machine)</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 850.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Superior Room')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500" alt="Suite Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Suite Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 75 m²</span>
+                <span>👥 Max 4 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Ruang Tamu Mewah & Meja Makan Terpisah</li>
+                <li>✓ Kamar Mandi Jacuzzi Pribadi & Double Vanity</li>
+                <li>✓ Akses Eksklusi VIP Lounge & Layanan Butler</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 1.500.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Suite Room')">Pilih Kamar</button>
+        </div>
+    </div>
+</div>
+
+<div class="booking-modal-overlay" id="bookingModal">
+    <div class="booking-modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-header">
+            <span class="close-modal-btn" onclick="closeBookingForm()">&times;</span>
+        </div>
+        
+        <div class="auth-form-container">
+            <div id="modalStepForm">
+                <h2>Reservasi Kamar</h2>
+                <p class="auth-subtitle">Silakan lengkapi data masa menginap Anda di bawah ini</p>
+                
+                <form class="modal-form" onsubmit="submitBooking(event)">
+                    <div class="form-group">
+                        <label>Tipe Kamar Pilihan</label>
+                        <input type="text" id="selectedRoomType" class="input-readonly" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nama Lengkap Pemesan</label>
+                        <input type="text" id="guestName" placeholder="Masukkan nama sesuai KTP / Paspor" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Alamat Email</label>
+                            <input type="email" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Telepon / WA</label>
+                            <input type="tel" placeholder="0812xxxxxxx" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tanggal Check-In</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Check-Out</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Orang Dewasa</label>
+                            <select>
+                                <option>1 Orang</option>
+                                <option selected>2 Orang</option>
+                                <option>3 Orang</option>
+                                <option>4 Orang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Anak-Anak</label>
+                            <select>
+                                <option selected>Tidak ada</option>
+                                <option>1 Anak</option>
+                                <option>2 Anak</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Metode Pembayaran</label>
+                        <select required>
+                            <option value="" disabled selected>-- Pilih Metode Pembayaran --</option>
+                            <option value="Tunai">💵 Tunai (Bayar langsung di Resepsionis)</option>
+                            <option value="Transfer Bank">🏦 Transfer Bank (Virtual Account Otomatis)</option>
+                            <option value="Kartu Kredit">💳 Kartu Kredit (Visa / MasterCard / AMEX)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kode Promo / Kupon </label>
+                        <select>
+                            <option value="Tanpa Promo" selected>Tidak Menggunakan Promo</option>
+                            <option value="WEEKENDAY">WEEKENDAY (Diskon Akhir Pekan 15%)</option>
+                            <option value="NEWYEAR2027">NEWYEAR2027 (Diskon Paket Tahun Baru 30%)</option>
+                            <option value="LOYALMEMBER">LOYALMEMBER (Diskon Loyalitas Anggota 10%)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit">Konfirmasi Pemesanan</button>
+                </form>
+            </div>
+
+            <div id="modalStepSuccess" style="display: none; text-align: center;">
+                <div class="success-icon">✓</div>
+                <h2>Terima Kasih!</h2>
+                <p class="auth-subtitle">Pemesanan Anda berhasil diproses secara aman.</p>
+                
+                <div class="success-details-box">
+                    <p>Halo, <strong id="summaryGuestName">-</strong>!</p>
+                    <p>Kamar tipe <strong id="summaryRoomType">-</strong> telah berhasil dipesan atas nama Anda. Voucher resmi dan instruksi pembayaran telah dikirimkan ke email Anda.</p>
+                </div>
+                
+                <button class="btn-auth-submit" onclick="closeBookingForm()">Selesai & Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="#">📸 Instagram</a>
+                    <a href="#">🎥 YouTube</a>
+                    <a href="#">🎵 TikTok</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="booking.html">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+    <script>
+        function openBookingForm(roomName) {
+            // Sembunyikan kotak sukses, munculkan kembali kotak form utama
+            document.getElementById('modalStepForm').style.display = 'block';
+            document.getElementById('modalStepSuccess').style.display = 'none';
+            
+            // Masukkan nama kamar yang diklik ke input field
+            document.getElementById('selectedRoomType').value = roomName;
+            
+            // Munculkan modal overlay di tengah layar
+            document.getElementById('bookingModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Kunci scroll halaman utama
+        }
+
+        function closeBookingForm() {
+            // Sembunyikan modal popup
+            document.getElementById('bookingModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Aktifkan kembali scroll halaman
+        }
+
+        function submitBooking(event) {
+            event.preventDefault(); // Mencegah halaman reload/pindah saat disubmit
+            
+            // Mengambil input nama dari user
+            const inputName = document.getElementById('guestName').value;
+            const selectedRoom = document.getElementById('selectedRoomType').value;
+            
+            // Masukkan data tersebut ke teks ucapan terima kasih
+            document.getElementById('summaryGuestName').innerText = inputName;
+            document.getElementById('summaryRoomType').innerText = selectedRoom;
+            
+            // Sembunyikan form, langsung ganti ke kotak terima kasih
+            document.getElementById('modalStepForm').style.display = 'none';
+            document.getElementById('modalStepSuccess').style.display = 'block';
+        }
+
+        // Fitur tambahan: jika user klik area gelap di luar kotak putih, modal otomatis tertutup
+        window.onclick = function(event) {
+            const modal = document.getElementById('bookingModal');
+            if (event.target == modal) {
+                closeBookingForm();
+            }
+        }
+
+        function openBookingModal(roomName, price) {
+        document.getElementById('bookingModal').style.display = 'flex';
+        document.getElementById('modalRoomType').value = roomName;
+    }
+        function closeBookingModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+}
+    </script>
+
+</body>
+</html>
+
+</body>
+</html>

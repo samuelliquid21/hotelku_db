@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Admin Dashboard</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+    <link rel="stylesheet" href="../Assets/css/admin-style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku <span style="font-size: 12px; color: #AA8237; letter-spacing: 1px;">[ADMIN]</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" class="admin-nav-link active" onclick="switchAdminTab(event, 'overview-sec')">Overview</a>
+            <a href="#" class="admin-nav-link" onclick="switchAdminTab(event, 'guests-sec')">Guests</a>
+            <a href="#" class="admin-nav-link" onclick="switchAdminTab(event, 'checkin-sec')">Check-In/Out</a>
+            <a href="#" class="admin-nav-link" onclick="switchAdminTab(event, 'reports-sec')">Reports</a>
+            
+            <div class="profile-icon-wrapper" onclick="adminSignOut(event)" title="Sign Out Admin">
+                <div class="profile-icon">🚪</div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero" style="min-height: 30vh; padding: 40px 20px;">
+        <span class="hero-welcome">Panel Kontrol Otoritas</span>
+        <h1 style="font-size: 2.5rem;">Selamat Datang, <span id="adminName">Admin</span></h1>
+    </header>
+
+    <main class="container" id="adminPanel" style="display: none; margin-top: -40px; position: relative; z-index: 5;">
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Guests</h3>
+                <p>32 Tamu</p>
+            </div>
+            <div class="stat-card">
+                <h3>Kamar Terisi</h3>
+                <p>18 / 25 Room</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pendapatan Bulan Ini</h3>
+                <p>Rp 45.200.000</p>
+            </div>
+        </div>
+
+        <section id="overview-sec" class="admin-section active">
+            <h2>Ringkasan Aktivitas Hotel</h2>
+            <p>Gunakan menu navigasi di atas untuk mengelola laporan berkala keuangan, memeriksa log kedatangan *check-in* dan kepulangan *check-out* tamu, serta melihat basis data pelanggan yang terdaftar.</p>
+        </section>
+
+        <section id="guests-sec" class="admin-section">
+            <h2>👥 Daftar Tamu Terdaftar (Guests)</h2>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID Guest</th>
+                            <th>Nama Lengkap</th>
+                            <th>Email Aktif</th>
+                            <th>No. Telepon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>#G001</td><td>John Doe</td><td>johndoe@email.com</td><td>08123456789</td></tr>
+                        <tr><td>#G002</td><td>Intan Permata</td><td>intan@email.com</td><td>08219876543</td></tr>
+                        <tr><td>#G003</td><td>Budi Santoso</td><td>budi@email.com</td><td>08571122334</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="checkin-sec" class="admin-section">
+            <h2>🔑 Status Registrasi Hunian Kamar (Check In / Out)</h2>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nomor Kamar</th>
+                            <th>Nama Tamu</th>
+                            <th>Tanggal Check-In</th>
+                            <th>Tanggal Check-Out</th>
+                            <th>Status Kamar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Suite 101</td><td>John Doe</td><td>18 Juni 2026</td><td>20 Juni 2026</td><td><span class="status-badge badge-active">Check-In</span></td></tr>
+                        <tr><td>Deluxe 204</td><td>Budi Santoso</td><td>15 Juni 2026</td><td>17 Juni 2026</td><td><span class="status-badge badge-completed">Out / Clear</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="reports-sec" class="admin-section">
+            <h2>📈 Laporan Keuangan & Transaksi Buku Besar (Reports)</h2>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID Transaksi</th>
+                            <th>Kategori Kamar</th>
+                            <th>Metode Pembayaran</th>
+                            <th>Total Nominal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>#TRX-9982</td><td>Suite Room</td><td>Bank Transfer</td><td>Rp 3.500.000</td></tr>
+                        <tr><td>#TRX-9983</td><td>Deluxe Room</td><td>Credit Card</td><td>Rp 1.500.000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer" style="margin-top: 80px;">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Admin Legal Access</h4>
+                <div class="footer-links">
+                    <a href="#">Security Policy</a>
+                    <a href="#">Audit System</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Panel Manajemen Otoritas Tertinggi Bintang 5. Amankan kredensial akun Anda dan lakukan audit data secara berkala untuk menjaga validitas laporan hunian hotel.</p>
+                <div class="footer-socials">
+                    <a href="#">📸 Instagram</a>
+                    <a href="#">🎥 YouTube</a>
+                    <a href="#">🎵 TikTok</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#facilities-section">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal Access</h4>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Security & Audit</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ketentuan: Mengambil status otentikasi dari penyimpanan lokal
+            const role = localStorage.getItem("userRole"); 
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+            // Jika tidak valid, kunci halaman dan lempar kembali ke form login
+            if (isLoggedIn !== "true" || role !== "admin") {
+                alert("Akses Terbatas! Silakan masuk menggunakan kredensial akun Admin.");
+                window.location.href = "sign-in.html";
+            } else {
+                // Tampilkan struktur panel kontrol
+                document.getElementById("adminPanel").style.display = "block";
+                document.getElementById("adminName").innerText = localStorage.getItem("username") || "Administrator";
+            }
+        });
+
+        // Mekanisme pertukaran tab seksi data
+        function switchAdminTab(event, sectionId) {
+            event.preventDefault();
+            
+            // Sembunyikan seksi data lama
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+            // Hapus status indikator aktif navbar
+            document.querySelectorAll('.admin-nav-link').forEach(link => link.classList.remove('active'));
+            
+            // Tampilkan komponen seksi baru yang dipanggil
+            document.getElementById(sectionId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Hapus otentikasi saat keluar sesi akun
+        function adminSignOut(event) {
+            event.preventDefault();
+            localStorage.clear();
+            alert("Sesi Admin berakhir. Mengalihkan ke halaman utama.");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

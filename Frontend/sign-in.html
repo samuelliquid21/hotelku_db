@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Sign In</title>
+    <link rel="stylesheet" href="../Assets/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="rooms.html">Rooms</a>
+            <a href="booking.html">Booking</a>
+            <a href="sign-up.html" class="btn-signin">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-title">Hotelku</div>
+            
+            <form onsubmit="handleSignIn(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="Masukkan email" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-flex">
+                        <label>Password</label>
+                        <a href="#">Forgot Password? Click here</a>
+                    </div>
+                    <input type="password" id="password" placeholder="Masukkan password" required>
+                </div>
+
+                <button type="submit" class="btn-primary">Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="sign-up.html">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="#">📸 Instagram</a>
+                    <a href="#">🎥 YouTube</a>
+                    <a href="#">🎵 TikTok</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    function handleSignIn(event) {
+        event.preventDefault(); // Mencegah form reload halaman otomatis
+
+        // Ambil data dari input form
+        const emailInput = document.getElementById('email').value;
+        const passwordInput = document.getElementById('password').value;
+
+        // KETENTUAN 1: Cek apakah yang login adalah Admin
+        if (emailInput === "admin@hotelku.com" && passwordInput === "admin123") {
+            // Simpan session admin ke LocalStorage
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("userRole", "admin");
+            localStorage.setItem("username", "Intan (Admin)");
+
+            alert("Login Berhasil! Selamat Datang Admin.");
+            // Lempar ke halaman admin-dashboard.html
+            window.location.href = "admin-dashboard.html";
+            return;
+        }
+
+        // KETENTUAN 2: Jika yang login adalah Guest biasa
+        const guestName = emailInput.split('@')[0]; 
+
+        // Simpan session guest ke LocalStorage
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userRole", "guest");
+        localStorage.setItem("username", guestName); // Menggunakan nama dari email
+
+        alert("Login Berhasil! Selamat Datang di Hotelku.");
+        window.location.href = "index.html";
+        return;
+    
+        // Jika data input salah atau tidak terdaftar
+        alert("Email atau password salah!");
+    }
+    </script>
+</body>
+</html>
