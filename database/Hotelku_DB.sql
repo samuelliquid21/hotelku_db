@@ -35,10 +35,10 @@ CREATE TABLE users (
     PRIMARY KEY (id_user), FOREIGN KEY (role_id) REFERENCES roles(id_role) ON DELETE SET NULL
 );
 INSERT INTO users (username, email, password, role_id) VALUES
-('admin1','admin1@hotelku.com','password123',1),('admin2','admin2@hotelku.com','password123',1),
-('resepsionis1','resepsionis1@hotelku.com','password123',2),('resepsionis2','resepsionis2@hotelku.com','password123',2),
-('resepsionis3','resepsionis3@hotelku.com','password123',2),('andi_tamu','andi@email.com','password123',3),
-('budi_tamu','budi@email.com','password123',3),('citra_tamu','citra@email.com','password123',3);
+('admin1','admin1@hotelku.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',1),('admin2','admin2@hotelku.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',1),
+('resepsionis1','resepsionis1@hotelku.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',2),('resepsionis2','resepsionis2@hotelku.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',2),
+('resepsionis3','resepsionis3@hotelku.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',2),('andi_tamu','andi@email.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',3),
+('budi_tamu','budi@email.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',3),('citra_tamu','citra@email.com','$2y$12$V2Qr8cgKECvp/4OXJqtfDuKHXnfbJNcRgHRGn/kLbvklLgiOh6TZu',3);
 
 -- jabatan
 CREATE TABLE jabatan (id_jabatan INT AUTO_INCREMENT, nama_jabatan VARCHAR(100) NOT NULL, PRIMARY KEY (id_jabatan));

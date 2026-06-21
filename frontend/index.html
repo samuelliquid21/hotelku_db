@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Mewah & Nyaman</title>
+    <meta name="description" content="Hotelku - Hotel bintang 5 dengan pelayanan mewah dan fasilitas lengkap di Jakarta Selatan.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Hotelku - Mewah & Nyaman">
+    <meta property="og:description" content="Hotel bintang 5 dengan kamar mewah, kolam renang, gym, spa, dan restoran.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .room-card-link { cursor: pointer; text-decoration: none; }
+        .room-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; padding:20px; }
+        .room-modal-content { background:#fff; border-radius:16px; max-width:600px; width:100%; max-height:90vh; overflow-y:auto; position:relative; }
+        .room-modal-close { position:absolute; top:12px; right:16px; font-size:28px; cursor:pointer; color:#999; background:none; border:none; }
+        .room-modal-close:hover { color:#333; }
+        .room-modal-img { width:100%; height:280px; object-fit:cover; border-radius:16px 16px 0 0; }
+        .room-modal-body { padding:24px; }
+        .room-modal-body h2 { color:#1A1513; margin-bottom:8px; }
+        .room-modal-body .price { color:#C5A059; font-size:20px; font-weight:700; margin-bottom:12px; }
+        .room-modal-body .desc { color:#555; line-height:1.7; font-size:14px; margin-bottom:16px; }
+        .room-modal-body .facilities { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+        .room-modal-body .facility-tag { background:#f0ebe3; color:#1A1513; padding:6px 14px; border-radius:20px; font-size:13px; }
+        .room-modal-body .btn-book { display:inline-block; padding:12px 32px; background:#C5A059; color:#fff; border:none; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; text-decoration:none; }
+        .room-modal-body .btn-book:hover { background:#b8904a; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#facilities-section">Rooms</a>
+                <a href="booking.html">Booking</a>
+                <a href="#contact-section">Kontak</a>
+                
+                <div class="profile-icon-wrapper" onclick="location.href='sign-in.html'">
+                    <div class="profile-icon">👤</div>
+                    <div class="profile-badge"></div>
+                </div>
+            </div>
+    </nav>
+
+    <header class="hero">
+        <span class="hero-welcome">Welcome Guest</span>
+        <h1>Selamat Datang di Hotelku</h1>
+    </header>
+
+    <main class="container">
+        
+        <section class="hotel-description-section">
+            <h2>Tentang Hotelku</h2>
+            <p>
+                Hotelku merupakan representasi dari kemewahan modern yang berpadu dengan kehangatan budaya lokal. 
+                Terletak strategis di pusat aktivitas kota, kami menawarkan akomodasi berkelas dengan fasilitas mutakhir 
+                yang dirancang khusus untuk memenuhi kebutuhan perjalanan bisnis maupun liburan santai Anda. Setiap sudut 
+                ruangan dirancang secara estetis menggunakan sentuhan warna warm gold dan krem untuk memastikan 
+                kenyamanan istirahat yang maksimal selama Anda menginap bersama kami.
+            </p>
+        </section>
+
+    <section class="facilities-section" id="facilities-section">
+    <h2>Kamar & Fasilitas Utama</h2>
+    <p class="reviews-sub" style="text-align:center;margin-bottom:24px;">Klik kartu untuk melihat detail lengkap</p>
+    <div class="slider-container">
+        
+        <a onclick="openRoomModal('Standard')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Standard Room" loading="lazy">
+                <div class="slider-tag">Standard Room</div>
+            </div>
+        </a>
+
+        <a onclick="openRoomModal('Deluxe')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" alt="Deluxe Room" loading="lazy">
+                <div class="slider-tag">Deluxe Room</div>
+            </div>
+        </a>
+
+        <a onclick="openRoomModal('Superior')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500" alt="Superior Room" loading="lazy">
+                <div class="slider-tag">Superior Room</div>
+            </div>
+        </a>
+
+        <a onclick="openRoomModal('Suite')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500" alt="Suite Room" loading="lazy">
+                <div class="slider-tag">Suite Room</div>
+            </div>
+        </a>
+
+        <a onclick="openFasilitasModal('bar')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500" alt="Resto & Bar" loading="lazy">
+                <div class="slider-tag">Luxury Bar & Resto</div>
+            </div>
+        </a>
+
+        <a onclick="openFasilitasModal('pool')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=500" alt="Swimming Pool" loading="lazy">
+                <div class="slider-tag">Swimming Pool</div>
+            </div>
+        </a>
+
+        <a onclick="openFasilitasModal('fitness')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500" alt="Gym" loading="lazy">
+                <div class="slider-tag">Fitness Center</div>
+            </div>
+        </a>
+
+        <a onclick="openFasilitasModal('spa')" class="slider-card room-card-link">
+            <div class="slider-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500" alt="Spa" loading="lazy">
+                <div class="slider-tag">Spa & Wellness</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<!-- Room Detail Modal -->
+<div class="room-modal" id="roomModal">
+    <div class="room-modal-content">
+        <button class="room-modal-close" onclick="closeRoomModal()">&times;</button>
+        <img class="room-modal-img" id="modalRoomImg" src="" alt="">
+        <div class="room-modal-body">
+            <h2 id="modalRoomName">-</h2>
+            <div class="price" id="modalRoomPrice">-</div>
+            <div class="desc" id="modalRoomDesc">-</div>
+            <div class="facilities" id="modalRoomFacilities"></div>
+            <a class="btn-book" href="booking.html"><i class="fa-solid fa-calendar-plus"></i> Booking Sekarang</a>
+        </div>
+    </div>
+</div>
+
+<!-- Fasilitas Detail Modal -->
+<div class="room-modal" id="fasilitasModal">
+    <div class="room-modal-content">
+        <button class="room-modal-close" onclick="closeFasilitasModal()">&times;</button>
+        <img class="room-modal-img" id="modalFasImg" src="" alt="">
+        <div class="room-modal-body">
+            <h2 id="modalFasName">-</h2>
+            <div class="desc" id="modalFasDesc">-</div>
+            <div class="facilities" id="modalFasInfo"></div>
+        </div>
+    </div>
+</div>
+
+        <section class="reviews-section">
+            <h2>Review & Testimoni</h2>
+            <p class="reviews-sub">Apa kata mereka yang sudah merasakan kemewahan Hotelku</p>
+            
+            <div class="review-slider">
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐★</div>
+                    <p class="review-text">"Pelayanan luar biasa hangat, stafnya sangat ramah! Desain interior kamarnya mewah banget dan kasurnya super empuk."</p>
+                    <div class="review-user">— Andi Wijaya</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Sangat merekomendasikan Superior Room-nya. Fasilitas bathtub premium dan pemandangan malam kota Jakarta dari jendela luar biasa indah."</p>
+                    <div class="review-user">— Citra Lestari</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Proses booking kamar lewat website gampang banget tanpa ribet. Makan malam di Resto & Bar hotel rasanya juara!"</p>
+                    <div class="review-user">— Budi Santoso</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Infinity pool-nya bersih, area gym lengkap, dan pelayanan spa-nya bikin relaks setelah seharian perjalanan bisnis."</p>
+                    <div class="review-user">— Evelyn Tania</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <h2>Lokasi Kami</h2>
+            <p>Jl. RS. Fatmawati Raya No.1, Pondok Labu, Jakarta Selatan</p>
+            <div class="map-container">
+                <iframe 
+                    src="https://maps.google.com/maps?q=Pondok%20Labu,%20Jakarta%20Selatan&t=&z=13&ie=UTF-8&iwloc=&output=embed" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/samuelliquid21" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Samuel</a>
+                    <a href="https://github.com/yusriyaturizki" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Yusri</a>
+                </div>
+                <div style="margin-top:8px;font-size:13px;color:#8A7E72;">
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:samuelliquid21@gmail.com" style="color:#C5A059;text-decoration:none;">samuelliquid21@gmail.com</a>
+                    <span style="margin:0 6px;">|</span>
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:yusriyaturizki@gmail.com" style="color:#C5A059;text-decoration:none;">yusriyaturizki@gmail.com</a>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#666;">
+                    Kelompok Basis Data UPNVJ &mdash; Hotelku v1.0
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                    <a href="#facilities-section"><i class="fa-solid fa-bed"></i> Rooms</a>
+                    <a href="booking.html"><i class="fa-solid fa-calendar-plus"></i> Booking</a>
+                    <a href="about.html"><i class="fa-solid fa-building"></i> About Us</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="tos.html"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+                    <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Section -->
+    <section class="container" id="contact-section" style="padding:40px 20px;max-width:600px;margin:0 auto;">
+        <h2 style="text-align:center;margin-bottom:8px;">Hubungi Kami</h2>
+        <p style="text-align:center;color:#8A7E72;margin-bottom:24px;">Punya pertanyaan atau saran? Kirim pesan langsung.</p>
+        <form onsubmit="sendMessage(event)" style="display:flex;flex-direction:column;gap:12px;">
+            <input type="text" id="contactNama" placeholder="Nama Anda" required style="padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+            <input type="email" id="contactEmail" placeholder="Email Anda" required style="padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+            <textarea id="contactPesan" placeholder="Tulis pesan Anda..." rows="4" required style="padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;font-family:inherit;"></textarea>
+            <button type="submit" style="padding:14px;background:#C5A059;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;">✉️ Kirim Pesan</button>
+        </form>
+        <div id="contactResult" style="margin-top:12px;text-align:center;"></div>
+    </section>
+
+<script>
+    const ROOM_DATA = {
+        'Standard': {
+            img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600',
+            price: 'Rp 350.000 / malam',
+            desc: 'Kamar Standard yang nyaman dengan desain minimalis modern. Dilengkapi dengan tempat tidur queen-size, AC, TV layar datar, dan kamar mandi pribadi. Cocok untuk pelancong solo atau pasangan yang mencari kenyamanan dengan harga terjangkau.',
+            facilities: ['Tempat Tidur Queen', 'AC', 'TV Layar Datar', 'Kamar Mandi Pribadi', 'WiFi Gratis', 'Mini Kulkas']
+        },
+        'Deluxe': {
+            img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600',
+            price: 'Rp 600.000 / malam',
+            desc: 'Kamar Deluxe dengan sentuhan interior elegan dan pemandangan kota yang menakjubkan. Nikmati fasilitas premium termasuk bathtub, coffee maker, dan balkon pribadi. Pilihan sempurna untuk pengalaman menginap yang lebih istimewa.',
+            facilities: ['Tempat Tidur King', 'AC', 'TV Layar Datar 43"', 'Bathtub & Shower', 'Coffee Maker', 'Balkon Pribadi', 'WiFi Gratis', 'Mini Bar'],
+            facilityImgs: {
+                'Bathtub & Shower': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=200&h=150&fit=crop',
+                'Coffee Maker': 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=150&fit=crop'
+            }
+        },
+        'Superior': {
+            img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600',
+            price: 'Rp 850.000 / malam',
+            desc: 'Kamar Superior menawarkan ruang lebih luas dengan area duduk terpisah. Dilengkapi dengan bathtub premium, tempat tidur king-size, dan pemandangan panorama kota Jakarta. Ideal untuk tamu bisnis maupun liburan yang mengutamakan kenyamanan ekstra.',
+            facilities: ['Tempat Tidur King', 'AC', 'TV Layar Datar 50"', 'Bathtub Premium', 'Ruang Duduk', 'Meja Kerja', 'WiFi Gratis', 'Mini Bar', 'Akses Lounge']
+        },
+        'Suite': {
+            img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600',
+            price: 'Rp 1.500.000 / malam',
+            desc: 'Suite Room adalah puncak kemewahan Hotelku. Terdiri dari ruang tamu terpisah, kamar tidur luas, dan kamar mandi marmer dengan jacuzzi. Nikmati layanan butler pribadi, akses VIP lounge, dan pemandangan 360° kota Jakarta dari lantai tertinggi.',
+            facilities: ['Tempat Tidur Super King', 'AC', 'TV 65" Smart TV', 'Jacuzzi & Shower', 'Ruang Tamu', 'Ruang Makan', 'Butler Service', 'VIP Lounge', 'WiFi Premium', 'Mini Bar Lengkap']
+        }
+    };
+
+    const FASILITAS_DATA = {
+        'bar': {
+            img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600',
+            name: 'Luxury Bar & Resto',
+            desc: 'Nikmati pengalaman bersantap mewah di restoran kami yang menyajikan hidangan internasional dan lokal pilihan. Bar kami menawarkan koleksi wine dan koktail premium dengan pemandangan kota Jakarta yang memukau di malam hari.',
+            info: ['Buka: 06.00 - 23.00 WIB', 'Sarapan: 06.00 - 10.00', 'Makan Siang: 12.00 - 14.00', 'Makan Malam: 18.00 - 22.00', 'Bar: 17.00 - 23.00', 'Live Music setiap Jumat & Sabtu']
+        },
+        'pool': {
+            img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=600',
+            name: 'Swimming Pool',
+            desc: 'Kolam renang infinity dengan pemandangan langit Jakarta. Dilengkapi area berjemur dengan kursi santapan yang nyaman, poolside bar, dan kolam anak terpisah. Buka setiap hari dari pukul 06.00 - 21.00 WIB.',
+            info: ['Kolam Infinity', 'Area Berjemur', 'Poolside Bar', 'Kolam Anak', 'Handuk Gratis', 'Buka: 06.00 - 21.00 WIB']
+        },
+        'fitness': {
+            img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600',
+            name: 'Fitness Center',
+            desc: 'Pusat kebugaran modern dengan peralatan lengkap dari Life Fitness. Dilengkapi dengan treadmill, elliptical, sepeda statis, barbel, dumbel, dan area stretching. Tersedia juga instruktur fitness profesional yang siap membantu.',
+            info: ['Alat Kardio Lengkap', 'Zona Beban Bebas', 'Area Stretching', 'Instruktur Profesional', 'Handuk & Air Mineral', 'Buka: 24 Jam']
+        },
+        'spa': {
+            img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600',
+            name: 'Spa & Wellness',
+            desc: 'Pusat spa dan wellness eksklusif yang menawarkan berbagai perawatan tradisional dan modern. Nikmati pijat relaksasi, perawatan wajah, body scrub, dan terapi aromaterapi yang akan menyegarkan tubuh dan pikiran Anda.',
+            info: ['Pijat Tradisional', 'Aromaterapi', 'Body Scrub', 'Facial Treatment', 'Sauna & Steam Room', 'Buka: 09.00 - 22.00 WIB', 'Reservasi diperlukan']
+        }
+    };
+
+    function openRoomModal(roomName) {
+        const data = ROOM_DATA[roomName];
+        if (!data) return;
+        document.getElementById('modalRoomImg').src = data.img;
+        document.getElementById('modalRoomName').textContent = roomName + ' Room';
+        document.getElementById('modalRoomPrice').textContent = data.price;
+        document.getElementById('modalRoomDesc').textContent = data.desc;
+        let facHtml = data.facilities.map(f => {
+            if (data.facilityImgs && data.facilityImgs[f]) {
+                return '<div style="display:inline-flex;align-items:center;gap:6px;background:#f0ebe3;padding:4px 10px 4px 4px;border-radius:20px;font-size:13px;"><img src="'+data.facilityImgs[f]+'" style="width:28px;height:28px;border-radius:50%;object-fit:cover;" alt="'+f+'"> '+f+'</div>';
+            }
+            return '<span class="facility-tag">'+f+'</span>';
+        }).join('');
+        document.getElementById('modalRoomFacilities').innerHTML = facHtml;
+        document.getElementById('roomModal').style.display = 'flex';
+    }
+
+    function closeRoomModal() {
+        document.getElementById('roomModal').style.display = 'none';
+    }
+
+    function openFasilitasModal(key) {
+        const data = FASILITAS_DATA[key];
+        if (!data) return;
+        document.getElementById('modalFasImg').src = data.img;
+        document.getElementById('modalFasName').textContent = data.name;
+        document.getElementById('modalFasDesc').textContent = data.desc;
+        document.getElementById('modalFasInfo').innerHTML = data.info.map(i => '<span class="facility-tag">'+i+'</span>').join('');
+        document.getElementById('fasilitasModal').style.display = 'flex';
+    }
+
+    function closeFasilitasModal() {
+        document.getElementById('fasilitasModal').style.display = 'none';
+    }
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('room-modal')) {
+            closeRoomModal();
+            closeFasilitasModal();
+        }
+    });
+
+    async function sendMessage(event) {
+        event.preventDefault();
+        const nama = document.getElementById('contactNama').value;
+        const email = document.getElementById('contactEmail').value;
+        const pesan = document.getElementById('contactPesan').value;
+        const resultDiv = document.getElementById('contactResult');
+
+        if (!nama || !email || !pesan) {
+            resultDiv.innerHTML = '<div style="background:#f8d7da;color:#721c24;padding:12px;border-radius:8px;">❌ Semua field harus diisi.</div>';
+            return;
+        }
+        if (!email.includes('@')) {
+            resultDiv.innerHTML = '<div style="background:#f8d7da;color:#721c24;padding:12px;border-radius:8px;">❌ Format email tidak valid.</div>';
+            return;
+        }
+
+        resultDiv.innerHTML = '<div style="color:#999;padding:12px;">⏳ Mengirim...</div>';
+        try {
+            const res = await fetch('../backend/api/messages.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nama, email, pesan })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                resultDiv.innerHTML = '<div style="background:#d4edda;color:#155724;padding:12px;border-radius:8px;">✅ Pesan berhasil dikirim! Kami akan menghubungi Anda.</div>';
+                document.getElementById('contactNama').value = '';
+                document.getElementById('contactEmail').value = '';
+                document.getElementById('contactPesan').value = '';
+            } else {
+                resultDiv.innerHTML = '<div style="background:#f8d7da;color:#721c24;padding:12px;border-radius:8px;">❌ ' + (data.message || 'Gagal kirim') + '</div>';
+            }
+        } catch (e) {
+            resultDiv.innerHTML = '<div style="background:#f8d7da;color:#721c24;padding:12px;border-radius:8px;">❌ Gagal terhubung ke server.</div>';
+        }
+    }
+
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    const role = localStorage.getItem('role');
+
+    if (token && username) {
+        document.querySelector('.hero-welcome').innerText = 'Welcome, ' + username;
+        const icon = document.querySelector('.profile-icon-wrapper');
+        if (role === 'admin') {
+            icon.onclick = function() { location.href = 'admin-dashboard.html'; };
+        } else if (role === 'resepsionis') {
+            icon.onclick = function() { location.href = 'receptionist-dashboard.html'; };
+        } else {
+            icon.onclick = function() { location.href = 'profile.html'; };
+        }
+        icon.title = 'Profil Saya';
+    }
+</script>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#C5A059;color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:999;">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+<script>window.addEventListener('scroll',function(){document.getElementById('scrollTopBtn').style.display=window.scrollY>300?'block':'none';});</script>
+</body>
+</html>

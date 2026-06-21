@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Suite Room</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Suite Room Hotelku - Kemewahan Tertinggi dengan Ruang Tamu Terpisah dan Pemandangan Spektakuler.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#facilities-section">Rooms</a>
+            <a href="booking.html">Booking</a>
+        </div>
+    </nav>
+
+    <header class="booking-header">
+        <div class="room-z-badge" style="background-color: #AA8237;">KEMEWAHAN ULTIMATE</div>
+        <h2>Suite Room</h2>
+        <p>Pengalaman Menginap Kelas Atas dengan Ruang Tamu Mewah & Akses VIP Eksklusif</p>
+    </header>
+
+    <main class="container">
+        <div class="room-carousel-container">
+            <button class="carousel-btn btn-prev" onclick="moveSlide(-1)">❮</button>
+            <button class="carousel-btn btn-next" onclick="moveSlide(1)">❯</button>
+            
+            <div class="room-slider" id="roomSlider">
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1000&auto=format&fit=crop" alt="Suite Room Bed">
+                    <div class="slide-caption">Kamar Tidur Utama dengan Kasur King-Size Premium dan Interior Elegan</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop" alt="Suite Living Room">
+                    <div class="slide-caption">Ruang Tamu Mewah & Meja Makan Terpisah untuk Kenyamanan Maksimal</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1000&auto=format&fit=crop" alt="Suite Bathroom Jacuzzi">
+                    <div class="slide-caption">Kamar Mandi Marmer Modern dengan Jacuzzi Pribadi & Double Vanity</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1560624052-449f5ddf0c31?q=80&w=1000&auto=format&fit=crop" alt="VIP Lounge">
+                    <div class="slide-caption">Akses Eksklusif ke VIP Lounge Termasuk Hidangan Siang & Malam</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000&auto=format&fit=crop" alt="Suite Butler Service">
+                    <div class="slide-caption">Layanan Butler Pribadi 24 Jam yang Siap Melayani Segala Kebutuhan Anda</div>
+                </div>
+            </div>
+        </div> <div class="room-detail-info-box">
+            <div class="room-spec-meta">
+                <span>📐 75 m²</span>
+                <span>👥 Max 4 Dewasa</span>
+            </div>
+            <h3>Deskripsi Lengkap</h3>
+            <p>
+                Nikmati puncak kemewahan sejati di Suite Room kami. Menawarkan ruang pameran seni interior seluas 75 m² yang dilengkapi dengan ruang tamu mewah terpisah serta meja makan privat. Manjakan diri Anda di kamar mandi marmer yang elegan dengan fasilitas Jacuzzi pribadi. Setiap pemesanan tipe ini sudah termasuk akses eksklusif ke VIP Lounge hotel serta layanan personal Butler 24 jam untuk menjamin kenyamanan bermalam Anda.
+            </p>
+            <div class="room-facilities-badges">
+                <div class="badge-item">🛁 JACUZZI PRIBADI</div>
+                <div class="badge-item">👑 VIP LOUNGE</div>
+                <div class="badge-item">🕴️ BUTLER SERVICE 24H</div>
+                <div class="badge-item">🛋️ LIVING ROOM</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.room-slide');
+        const totalSlides = slides.length;
+        const sliderContainer = document.getElementById('roomSlider');
+
+        function moveSlide(direction) {
+            currentIdx += direction;
+            if (currentIdx >= totalSlides) currentIdx = 0;
+            else if (currentIdx < 0) currentIdx = totalSlides - 1;
+            sliderContainer.style.transform = `translateX(-${currentIdx * 100}%)`;
+        }
+    </script>
+</body>
+</html>

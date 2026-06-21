@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Available Rooms</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Pesan kamar hotel terbaik di Hotelku. Tersedia Standard, Deluxe, Superior, dan Suite Room dengan harga terbaik.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Hotelku - Available Rooms">
+    <meta property="og:description" content="Pesan kamar hotel terbaik di Hotelku. Tersedia Standard, Deluxe, Superior, dan Suite Room dengan harga terbaik.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar Atas -->
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#facilities-section">Rooms</a>
+            <a href="booking.html">Booking</a>
+            
+            <div class="profile-icon-wrapper" onclick="location.href='sign-in.html'">
+                <div class="profile-icon">👤</div>
+                <div class="profile-badge"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Status Pencarian -->
+    <header class="booking-header">
+        <h2>Kamar Yang Tersedia</h2>
+        <p>Menampilkan opsi akomodasi terbaik untuk kenyamanan menginap Anda</p>
+    </header>
+
+<div class="available-rooms-container">
+    
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Standard Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Standard Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 24 m²</span>
+                <span>👥 Max 2 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Pancuran Air Panas / Dingin</li>
+                <li>✓ AC Control & Free Wi-Fi Kencang</li>
+                <li>✓ Air Mineral Botol Gratis Harian</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 350.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Standard')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500" alt="Deluxe Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Deluxe Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 32 m²</span>
+                <span>👥 Max 2 Dewasa, 1 Anak</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Smart TV 43" (Netflix Ready)</li>
+                <li>✓ Meja Kerja & Sofa Santai Minimalis</li>
+                <li>✓ Pemandangan Kota Berjendela Besar</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 600.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Deluxe')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500" alt="Superior Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Superior Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 45 m²</span>
+                <span>👥 Max 3 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Kasur Ukuran King Premium</li>
+                <li>✓ Kamar Mandi Marmer dengan Bathtub</li>
+                <li>✓ Fasilitas Kopi Kapsul Premium (Espresso Machine)</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 850.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Superior')">Pilih Kamar</button>
+        </div>
+    </div>
+
+    <div class="accor-room-card">
+        <div class="accor-room-img">
+            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500" alt="Suite Room">
+        </div>
+        <div class="accor-room-details">
+            <h3>Suite Room</h3>
+            <div class="accor-room-meta">
+                <span>📐 75 m²</span>
+                <span>👥 Max 4 Dewasa</span>
+            </div>
+            <ul class="accor-room-features-list">
+                <li>✓ Ruang Tamu Mewah & Meja Makan Terpisah</li>
+                <li>✓ Kamar Mandi Jacuzzi Pribadi & Double Vanity</li>
+                <li>✓ Akses Eksklusi VIP Lounge & Layanan Butler</li>
+            </ul>
+        </div>
+        <div class="accor-room-pricing">
+            <div class="price-label">Harga per malam</div>
+            <div class="actual-price">Rp 1.500.000</div>
+            <button class="btn-accor-select" onclick="openBookingForm('Suite')">Pilih Kamar</button>
+        </div>
+    </div>
+</div>
+
+<div class="booking-modal-overlay" id="bookingModal">
+    <div class="booking-modal-content" style="max-height: 85vh; overflow-y: auto;">
+        <div class="modal-header">
+            <span class="close-modal-btn" onclick="closeBookingForm()">&times;</span>
+        </div>
+        
+        <div class="auth-form-container">
+            <div id="modalStepForm">
+                <h2>Reservasi Kamar</h2>
+                <p class="auth-subtitle">Silakan lengkapi data masa menginap Anda di bawah ini</p>
+                
+                <div id="bookingError" class="alert alert-error" style="display:none;padding:10px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;background:#f8d7da;color:#721c24;"></div>
+                <form class="modal-form" onsubmit="submitBooking(event)">
+                    <div class="form-group">
+                        <label>Tipe Kamar Pilihan</label>
+                        <input type="text" id="selectedRoomType" class="input-readonly" readonly>
+                    </div>
+
+                    <div class="form-group" id="tamuIdGroup" style="display:none">
+                        <label>ID Tamu</label>
+                        <input type="number" id="bookTamuId" placeholder="Masukkan ID tamu" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Lengkap Pemesan</label>
+                        <input type="text" id="guestName" placeholder="Masukkan nama sesuai KTP / Paspor" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Alamat Email</label>
+                            <input type="email" id="guestEmail" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Telepon / WA</label>
+                            <input type="tel" id="guestPhone" placeholder="0812xxxxxxx" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tanggal Check-In</label>
+                            <input type="date" id="checkinDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Check-Out</label>
+                            <input type="date" id="checkoutDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Orang Dewasa</label>
+                            <select id="adultCount">
+                                <option value="1">1 Orang</option>
+                                <option value="2" selected>2 Orang</option>
+                                <option value="3">3 Orang</option>
+                                <option value="4">4 Orang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Anak-Anak</label>
+                            <select id="childCount">
+                                <option value="0" selected>Tidak ada</option>
+                                <option value="1">1 Anak</option>
+                                <option value="2">2 Anak</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Metode Pembayaran</label>
+                        <select id="paymentMethod" required>
+                            <option value="" disabled selected>-- Pilih Metode Pembayaran --</option>
+                            <option value="Tunai">💵 Tunai (Bayar langsung di Resepsionis)</option>
+                            <option value="Transfer Bank">🏦 Transfer Bank (Virtual Account Otomatis)</option>
+                            <option value="Kartu Kredit">💳 Kartu Kredit (Visa / MasterCard / AMEX)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kode Promo / Kupon </label>
+                        <select id="promoCode">
+                            <option value="" selected>Tidak Menggunakan Promo</option>
+                            <option value="WEEKENDAY">WEEKENDAY (Diskon Akhir Pekan 15%)</option>
+                            <option value="NEWYEAR2027">NEWYEAR2027 (Diskon Paket Tahun Baru 30%)</option>
+                            <option value="LOYALMEMBER">LOYALMEMBER (Diskon Loyalitas Anggota 10%)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-auth-submit">Konfirmasi Pemesanan</button>
+                </form>
+            </div>
+
+            <div id="modalStepSuccess" style="display: none; text-align: center;">
+                <div class="success-icon">✓</div>
+                <h2>Terima Kasih!</h2>
+                <p class="auth-subtitle">Pemesanan Anda berhasil diproses secara aman.</p>
+                
+                <div class="success-details-box">
+                    <p>Halo, <strong id="summaryGuestName">-</strong>!</p>
+                    <p>Kamar tipe <strong id="summaryRoomType">-</strong> telah berhasil dipesan atas nama Anda. Voucher resmi dan instruksi pembayaran telah dikirimkan ke email Anda.</p>
+                    <p style="margin-top:12px;">ID Reservasi: <strong id="summaryReservasiId">-</strong></p>
+                </div>
+                
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+                    <button class="btn-auth-submit" onclick="goToPayment()" style="background:#C5A059;">💳 Bayar Sekarang</button>
+                    <button class="btn-auth-submit" onclick="closeBookingForm()" style="background:#555;">Selesai & Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/samuelliquid21" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Samuel</a>
+                    <a href="https://github.com/yusriyaturizki" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Yusri</a>
+                </div>
+                <div style="margin-top:8px;font-size:13px;color:#8A7E72;">
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:samuelliquid21@gmail.com" style="color:#C5A059;text-decoration:none;">samuelliquid21@gmail.com</a>
+                    <span style="margin:0 6px;">|</span>
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:yusriyaturizki@gmail.com" style="color:#C5A059;text-decoration:none;">yusriyaturizki@gmail.com</a>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#666;">
+                    Kelompok Basis Data UPNVJ &mdash; Hotelku v1.0
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#facilities-section">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                    <a href="about.html"><i class="fa-solid fa-building"></i> About Us</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="tos.html"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+                    <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+    <script>
+    const API_BASE = '../backend/api';
+    let roomsData = [];
+
+    function getHeaders() {
+        const headers = { 'Content-Type': 'application/json' };
+        const token = localStorage.getItem('token');
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+        return headers;
+    }
+
+    async function fetchRooms() {
+        try {
+            const res = await fetch(API_BASE + '/rooms.php', { headers: getHeaders() });
+            const data = await res.json();
+            if (data.status === 'success') {
+                roomsData = data.data;
+            }
+        } catch (e) {}
+    }
+    fetchRooms();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const role = localStorage.getItem('role');
+        if (role === 'admin' || role === 'resepsionis') {
+            document.getElementById('tamuIdGroup').style.display = 'block';
+        }
+    });
+
+    function openBookingForm(roomName) {
+        document.getElementById('modalStepForm').style.display = 'block';
+        document.getElementById('modalStepSuccess').style.display = 'none';
+        document.getElementById('selectedRoomType').value = roomName;
+        document.getElementById('bookingModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeBookingForm() {
+        document.getElementById('bookingModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    async function submitBooking(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Silakan login terlebih dahulu untuk booking.');
+            window.location.href = 'sign-in.html';
+            return;
+        }
+
+        const roomName = document.getElementById('selectedRoomType').value;
+        const room = roomsData.find(r => r.nama_tipe === roomName);
+        if (!room) {
+            alert('Kamar tidak ditemukan. Silakan refresh halaman.');
+            return;
+        }
+
+        const guestName = document.getElementById('guestName').value;
+        const guestEmail = document.getElementById('guestEmail').value;
+        const guestPhone = document.getElementById('guestPhone').value;
+        const checkin = document.getElementById('checkinDate').value;
+        const checkout = document.getElementById('checkoutDate').value;
+        const promo = document.getElementById('promoCode').value;
+
+        if (!checkin || !checkout) {
+            alert('Pilih tanggal check-in dan check-out terlebih dahulu.');
+            return;
+        }
+
+        const role = localStorage.getItem('role');
+        let tamu_id;
+        if (role === 'admin' || role === 'resepsionis') {
+            tamu_id = parseInt(document.getElementById('bookTamuId').value);
+            if (!tamu_id) { alert('Masukkan ID tamu terlebih dahulu.'); return; }
+        } else {
+            tamu_id = parseInt(localStorage.getItem('tamu_id') || 1);
+        }
+
+        try {
+            const res = await fetch(API_BASE + '/bookings.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    tamu_id: tamu_id,
+                    kamar_id: room.id_kamar,
+                    tanggal_checkin: checkin,
+                    tanggal_checkout: checkout,
+                    promo_id: promo || null
+                })
+            });
+
+            const data = await res.json();
+
+            if (data.status !== 'success') {
+                alert(data.message || 'Booking gagal');
+                return;
+            }
+
+            document.getElementById('summaryGuestName').innerText = guestName;
+            document.getElementById('summaryRoomType').innerText = roomName;
+            document.getElementById('summaryReservasiId').innerText = data.id_reservasi;
+            window._lastBookReservasiId = data.id_reservasi;
+            document.getElementById('modalStepForm').style.display = 'none';
+            document.getElementById('modalStepSuccess').style.display = 'block';
+        } catch (err) {
+            alert('Gagal terhubung ke server. Pastikan server PHP nyala.');
+        }
+    }
+
+    function goToPayment() {
+        const id = window._lastBookReservasiId;
+        if (id) {
+            window.location.href = 'payment.html?id=' + id;
+        }
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('bookingModal');
+        if (event.target == modal) closeBookingForm();
+    }
+    </script>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#C5A059;color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:999;">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script>window.addEventListener('scroll',function(){document.getElementById('scrollTopBtn').style.display=window.scrollY>300?'block':'none';});</script>
+</body>
+</html>

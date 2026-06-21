@@ -1,6 +1,6 @@
 <?php
 
-define('AUTH_SECRET', 'Hotelku_DB_Rahasia2026');
+defined('AUTH_SECRET') or define('AUTH_SECRET', getenv('AUTH_SECRET') ?: 'Hotelku_DB_Rahasia2026');
 define('TOKEN_EXPIRY', 86400);
 
 function json_response($data, $status = 200) {

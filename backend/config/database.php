@@ -2,12 +2,21 @@
 // ====================================================================
 // HOTELKU_DB - Konfigurasi Database
 // Koneksi ke MySQL menggunakan PDO
+// Credential dibaca dari .env (bukan hardcode)
 // ====================================================================
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'Hotelku_DB');
-define('DB_USER', 'root');
-define('DB_PASS', 'sardenggan123');
+$envFile = __DIR__ . '/../../.env';
+if (file_exists($envFile)) {
+    $env = parse_ini_file($envFile);
+    foreach ($env as $key => $value) {
+        putenv("$key=$value");
+    }
+}
+
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME', getenv('DB_NAME') ?: 'Hotelku_DB');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
 try {

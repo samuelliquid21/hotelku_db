@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Hotelku</title>
+    <meta name="description" content="Hotelku - Hotel bintang 5 dengan pelayanan mewah dan nyaman.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Tentang Hotelku">
+    <meta property="og:description" content="Kenali tim di balik Hotelku.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .about-hero { background: linear-gradient(135deg, #1A1513, #2a2018); padding: 60px 20px; text-align: center; color: #fff; }
+        .about-hero h1 { font-size: 36px; color: #C5A059; margin-bottom: 12px; }
+        .about-hero p { color: #8A7E72; max-width: 600px; margin: 0 auto; font-size: 16px; line-height: 1.6; }
+        .about-content { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .about-content h2 { color: #1A1513; margin: 30px 0 16px; font-size: 22px; }
+        .about-content p { color: #555; line-height: 1.8; font-size: 15px; margin-bottom: 16px; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin: 30px 0; }
+        .team-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); overflow: hidden; text-align: center; padding-bottom: 20px; }
+        .team-photo { width: 100%; height: 220px; background: #e0d6c8; display: flex; align-items: center; justify-content: center; color: #8A7E72; font-size: 14px; }
+        .team-card h4 { margin: 16px 0 4px; color: #1A1513; font-size: 16px; }
+        .team-card p { color: #C5A059; font-size: 13px; margin: 0; }
+        .team-card .role { color: #999; font-size: 12px; margin-top: 4px; }
+        .back-link { display: inline-block; margin-top: 30px; color: #C5A059; text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+        footer { background: #1A1513; color: #8A7E72; text-align: center; padding: 24px; font-size: 13px; margin-top: 40px; }
+        footer a { color: #C5A059; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="about-hero">
+        <h1>Tentang Hotelku</h1>
+        <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat.</p>
+    </div>
+
+    <div class="about-content">
+        <h2>Visi</h2>
+        <p>Menjadi hotel terkemuka yang memberikan pengalaman menginap tak terlupakan dengan standar pelayanan internasional dan sentuhan keramahan lokal.</p>
+
+        <h2>Misi</h2>
+        <p>Memberikan kenyamanan dan kepuasan tertinggi kepada setiap tamu melalui layanan profesional, fasilitas modern, dan keramahtamahan khas Indonesia.</p>
+
+        <h2>Tim Kami</h2>
+        <p>Hotelku dikelola oleh tim profesional yang berdedikasi tinggi. Berikut adalah anggota tim pengembang sistem Hotelku:</p>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo">
+                    <i class="fa-solid fa-user" style="font-size:64px;color:#C5A059;"></i>
+                </div>
+                <h4>Halwa</h4>
+                <p class="role">Anggota 1</p>
+                <p class="role"><i class="fa-brands fa-github"></i> samuelliquid21</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">
+                    <i class="fa-solid fa-user" style="font-size:64px;color:#C5A059;"></i>
+                </div>
+                <h4>Intan</h4>
+                <p class="role">Anggota 2</p>
+                <p class="role"><i class="fa-brands fa-github"></i> yusriyaturizki</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo" id="photoAnggota3">
+                    <i class="fa-solid fa-camera" style="font-size:48px;color:#C5A059;"></i>
+                    <p style="margin-top:8px;font-size:12px;">Upload foto</p>
+                </div>
+                <h4>Raffa</h4>
+                <p class="role">Anggota 3</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo" id="photoAnggota4">
+                    <i class="fa-solid fa-camera" style="font-size:48px;color:#C5A059;"></i>
+                    <p style="margin-top:8px;font-size:12px;">Upload foto</p>
+                </div>
+                <h4>Raditya</h4>
+                <p class="role">Anggota 4</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo" id="photoAnggota5">
+                    <i class="fa-solid fa-camera" style="font-size:48px;color:#C5A059;"></i>
+                    <p style="margin-top:8px;font-size:12px;">Upload foto</p>
+                </div>
+                <h4>Samuel</h4>
+                <p class="role">Anggota 5</p>
+                <p class="role"><i class="fa-brands fa-github"></i> samuelliquid21</p>
+            </div>
+        </div>
+
+        <p style="text-align:center;font-size:14px;color:#999;">
+            <i class="fa-solid fa-envelope"></i> samuelliquid21@gmail.com | yusriyaturizki@gmail.com
+        </p>
+
+        <div style="text-align:center;">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Hotelku. Kelompok Basis Data UPNVJ.</p>
+    </footer>
+</body>
+</html>

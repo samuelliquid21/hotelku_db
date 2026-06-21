@@ -1,0 +1,24 @@
+# Environment
+.env
+
+# SQL backup/dump files
+*.sql
+
+# Backup files
+*.zip
+*.gz
+*.bak
+*.backup
+
+# Duplicate project folder
+/project/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

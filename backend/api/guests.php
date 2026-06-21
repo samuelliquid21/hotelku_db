@@ -39,9 +39,12 @@ if ($user['role'] === 'tamu') {
         $stmt->execute(['uid' => $user['user_id']]);
     } else {
         $stmt = $pdo->prepare("
-            SELECT t.id_tamu, t.nama, t.email, t.telepon
+            SELECT t.id_tamu, t.nama, t.email, t.telepon, t.alamat,
+                   COUNT(r.id_reservasi) AS total_booking
             FROM tamu t
+            LEFT JOIN reservasi r ON t.id_tamu = r.tamu_id
             WHERE t.user_id = :uid
+            GROUP BY t.id_tamu
         ");
         $stmt->execute(['uid' => $user['user_id']]);
     }
@@ -57,8 +60,8 @@ if ($user['role'] === 'tamu') {
     $stmt->execute(['id' => $id]);
 } else {
     $stmt = $pdo->query("
-        SELECT t.id_tamu, t.nama, t.email, t.telepon,
-               COUNT(r.id_reservasi) AS total_booking
+            SELECT t.id_tamu, t.nama, t.email, t.telepon, t.alamat,
+                   COUNT(r.id_reservasi) AS total_booking
         FROM tamu t
         LEFT JOIN reservasi r ON t.id_tamu = r.tamu_id
         GROUP BY t.id_tamu

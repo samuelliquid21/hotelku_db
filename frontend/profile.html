@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - Hotelku</title>
+    <meta name="description" content="Profil tamu Hotelku - edit data diri dan lihat riwayat booking.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Profil Saya - Hotelku">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .profile-page { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .profile-grid { display: grid; grid-template-columns: 300px 1fr; gap: 24px; margin-bottom: 24px; }
+        .profile-sidebar { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; text-align: center; align-self: start; }
+        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg,#C5A059,#a8853c); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: #fff; margin: 0 auto 12px; font-weight: 700; border: 3px solid #C5A059; }
+        .profile-sidebar h2 { color: #1A1513; font-size: 20px; margin-bottom: 4px; }
+        .role-badge { display: inline-block; background: #C5A05915; color: #C5A059; font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; }
+        .profile-stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
+        .stat-item { background: #f9f7f4; border-radius: 12px; padding: 12px 16px; flex: 1; }
+        .stat-item .num { font-size: 18px; font-weight: 700; color: #C5A059; }
+        .stat-item .lbl { font-size: 11px; color: #8A7E72; }
+        .profile-nav { display: flex; flex-direction: column; gap: 8px; }
+        .profile-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 10px; color: #555; text-decoration: none; font-size: 14px; transition: all .2s; }
+        .profile-nav a:hover { background: #C5A05910; color: #C5A059; }
+        .profile-nav a i { width: 18px; text-align: center; color: #C5A059; }
+
+        .profile-main { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; }
+        .profile-main h3 { font-size: 16px; color: #1A1513; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; font-weight: 600; }
+        .form-group label i { width: 14px; color: #C5A059; margin-right: 4px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; transition: border .2s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #C5A059; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .btn-save { width: 100%; padding: 14px; background: #C5A059; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s; }
+        .btn-save:hover { background: #b8904a; }
+        .btn-save:disabled { opacity: .6; cursor: not-allowed; }
+        .alert { padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; display: none; }
+        .alert-success { background: #d4edda; color: #155724; display: block; }
+        .alert-error { background: #f8d7da; color: #721c24; display: block; }
+
+        .section-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 24px; margin-bottom: 24px; }
+        .section-card h3 { font-size: 16px; color: #1A1513; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .section-card h3 span { font-size: 13px; font-weight: 400; }
+        .btn-new-msg { background: #C5A059; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-new-msg:hover { background: #b8904a; }
+
+        .chat-thread { margin-bottom: 12px; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+        .chat-thread-header { padding: 12px 16px; background: #f9f7f2; cursor: pointer; display: flex; align-items: center; gap: 10px; user-select: none; transition: background .2s; }
+        .chat-thread-header:hover { background: #f0ede6; }
+        .chat-thread-header .thread-subjek { flex: 1; font-weight: 600; font-size: 14px; color: #1A1513; }
+        .chat-thread-header .thread-date { font-size: 11px; color: #999; white-space: nowrap; }
+        .chat-thread-header .thread-count { font-size: 11px; background: #C5A059; color: #fff; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .chat-thread-header .thread-toggle { font-size: 12px; color: #999; transition: transform .25s; }
+        .chat-thread.collapsed .thread-toggle { transform: rotate(-90deg); }
+        .chat-thread-body { padding: 16px; max-height: 320px; overflow-y: auto; }
+        .chat-thread.collapsed .chat-thread-body { display: none; }
+        .chat-msg { display: flex; margin-bottom: 12px; }
+        .chat-msg:last-child { margin-bottom: 0; }
+        .chat-msg.user { justify-content: flex-start; }
+        .chat-msg.admin { justify-content: flex-end; }
+        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; position: relative; }
+        .chat-msg.user .chat-bubble { background: #f5f5f5; color: #1A1513; border-bottom-left-radius: 4px; }
+        .chat-msg.admin .chat-bubble { background: #C5A059; color: #fff; border-bottom-right-radius: 4px; }
+        .chat-bubble .meta { font-size: 11px; color: #999; margin-top: 6px; display: block; }
+        .chat-msg.admin .chat-bubble .meta { color: rgba(255,255,255,.7); }
+        .chat-reply-form { margin-top: 12px; display: flex; gap: 8px; }
+        .chat-reply-form input { flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; }
+        .chat-reply-form input:focus { outline: none; border-color: #C5A059; }
+        .chat-reply-form button { background: #C5A059; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+        .chat-reply-form button:hover { background: #b8904a; }
+
+        #pesanContainer { max-height: 600px; overflow-y: auto; }
+        .legacy-msg { background: #f9f9f9; border-radius: 8px; padding: 14px; margin-bottom: 10px; border-left: 3px solid #C5A059; font-size: 14px; }
+        .legacy-msg .subjek { font-weight: 600; color: #1A1513; margin-bottom: 4px; }
+        .legacy-msg .balasan { margin-top: 10px; padding-top: 10px; border-top: 1px solid #ddd; color: #C5A059; }
+        .legacy-msg .timestamp { font-size: 11px; color: #999; margin-top: 6px; }
+
+        .table-wrap { overflow-x: auto; }
+        .table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .table-wrap th { background: #1A1513; color: #C5A059; padding: 12px 14px; text-align: left; white-space: nowrap; }
+        .table-wrap td { padding: 12px 14px; border-bottom: 1px solid #eee; }
+        .table-wrap tr:hover td { background: #faf8f5; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .badge-baru { background: #fff3cd; color: #856404; }
+        .badge-checkin { background: #d1ecf1; color: #0c5460; }
+        .badge-checkout { background: #d4edda; color: #155724; }
+        .badge-batal { background: #f8d7da; color: #721c24; }
+        .action-btn { background: none; border: none; cursor: pointer; font-size: 14px; padding: 4px 6px; border-radius: 4px; transition: background .2s; }
+        .action-btn:hover { background: #eee; }
+        .action-btn.danger { color: #dc3545; }
+        .action-btn.success { color: #28a745; }
+        .action-btn.gold { color: #C5A059; }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+        .modal-box h3 { font-size: 18px; margin-bottom: 16px; color: #1A1513; }
+        .modal-box .form-group { margin-bottom: 14px; }
+        .modal-box input, .modal-box textarea { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .modal-box textarea { resize: vertical; min-height: 100px; }
+        .modal-box .btn-group { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+        .modal-box .btn-group button { padding: 10px 24px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .modal-box .btn-cancel { background: #eee; color: #555; }
+        .modal-box .btn-submit { background: #C5A059; color: #fff; }
+
+        .loading { text-align: center; padding: 40px; color: #999; }
+
+        @media (max-width: 768px) {
+            .profile-grid { grid-template-columns: 1fr; }
+            .profile-page { margin: 16px auto; padding: 0 12px; }
+            .chat-bubble { max-width: 100%; }
+            .chat-thread-body { max-height: 240px; }
+            #pesanContainer { max-height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Hotelku</div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="booking.html">Booking</a>
+        <a href="about.html">About</a>
+        <a href="javascript:void(0)" onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+</nav>
+
+<div class="profile-page">
+
+    <div class="profile-grid">
+        <div class="profile-sidebar">
+            <div class="profile-avatar" id="avatarLetter">U</div>
+            <h2 id="displayName">-</h2>
+            <div class="role-badge" id="displayRole"><i class="fa-solid fa-user"></i> Tamu</div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="num" id="statBooking">0</div>
+                    <div class="lbl">Booking</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num" id="statMember">-</div>
+                    <div class="lbl">Member</div>
+                </div>
+            </div>
+            <div class="profile-nav">
+                <a href="booking.html"><i class="fa-solid fa-calendar-plus"></i> Booking Baru</a>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="javascript:void(0)" onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <div id="alertBox" class="alert"></div>
+            <h3><i class="fa-solid fa-pen-to-square"></i> Edit Profil</h3>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label><i class="fa-regular fa-user"></i> Nama Lengkap</label>
+                    <input type="text" id="editNama" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-regular fa-envelope"></i> Email</label>
+                    <input type="email" id="editEmail" disabled>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-phone"></i> Nomor Telepon</label>
+                    <input type="tel" id="editTelepon">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Alamat</label>
+                    <textarea id="editAlamat" placeholder="Masukkan alamat lengkap"></textarea>
+                </div>
+                <button type="submit" class="btn-save" id="btnSave"><i class="fa-regular fa-floppy-disk"></i> Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h3>
+            <span><i class="fa-regular fa-comments"></i> Pesan & Balasan</span>
+            <button class="btn-new-msg" onclick="openNewPesanModal()"><i class="fa-solid fa-plus"></i> Pesan Baru</button>
+        </h3>
+        <div id="pesanContainer">
+            <div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat pesan...</div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Booking</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Kamar</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="riwayatBody">
+                    <tr><td colspan="6" style="padding:24px;text-align:center;color:#999;">Memuat...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="newPesanModal">
+    <div class="modal-box">
+        <h3><i class="fa-regular fa-pen-to-square"></i> Pesan Baru</h3>
+        <div class="form-group">
+            <label>Subjek</label>
+            <input type="text" id="newSubjek" placeholder="Judul pesan">
+        </div>
+        <div class="form-group">
+            <label>Pesan</label>
+            <textarea id="newPesan" placeholder="Tulis pesan Anda..."></textarea>
+        </div>
+        <div class="btn-group">
+            <button class="btn-cancel" onclick="closeNewPesanModal()">Batal</button>
+            <button class="btn-submit" onclick="sendNewPesan()">Kirim</button>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-about">
+            <div class="footer-logo">Hotelku</div>
+            <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat.</p>
+            <div class="footer-socials">
+                <a href="https://github.com/samuelliquid21" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Samuel</a>
+                <a href="https://github.com/yusriyaturizki" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Yusri</a>
+            </div>
+            <div style="margin-top:8px;font-size:13px;color:#8A7E72;">
+                <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:samuelliquid21@gmail.com" style="color:#C5A059;text-decoration:none;">samuelliquid21@gmail.com</a>
+                <span style="margin:0 6px;">|</span>
+                <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:yusriyaturizki@gmail.com" style="color:#C5A059;text-decoration:none;">yusriyaturizki@gmail.com</a>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#666;">
+                Kelompok Basis Data UPNVJ &mdash; Hotelku v1.0
+            </div>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <div class="footer-links">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="booking.html"><i class="fa-solid fa-calendar-plus"></i> Booking</a>
+                <a href="about.html"><i class="fa-solid fa-building"></i> About Us</a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h4>Legal</h4>
+            <div class="footer-links">
+                <a href="tos.html"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+                <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#C5A059;color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:999;">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+<script>window.addEventListener('scroll',function(){document.getElementById('scrollTopBtn').style.display=window.scrollY>300?'block':'none';});</script>
+
+<script>
+const API_BASE = '../backend/api';
+
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    if (!token) {
+        window.location.href = 'sign-in.html';
+        return;
+    }
+    document.getElementById('displayName').textContent = username || 'User';
+    document.getElementById('avatarLetter').textContent = (username || 'U').charAt(0).toUpperCase();
+    loadProfile();
+    loadRiwayat();
+    loadPesan();
+});
+
+async function loadProfile() {
+    try {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        let guestData = {};
+        if (role === 'tamu') {
+            const res = await fetch(API_BASE + '/guests.php', { headers: { 'Authorization': 'Bearer ' + token } });
+            const data = await res.json();
+            if (data.status === 'success' && data.data && data.data.length > 0) {
+                guestData = data.data[0];
+            }
+        }
+        document.getElementById('editNama').value = guestData.nama || '';
+        document.getElementById('editEmail').value = localStorage.getItem('email') || '';
+        document.getElementById('editTelepon').value = guestData.telepon || '';
+        document.getElementById('editAlamat').value = guestData.alamat || '';
+        if (guestData.created_at) {
+            document.getElementById('statMember').textContent = new Date(guestData.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
+        }
+    } catch (e) {
+        showAlert('Gagal memuat profil.', 'error');
+    }
+}
+
+document.getElementById('profileForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnSave');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/auth.php?action=update_profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+                nama: document.getElementById('editNama').value,
+                telepon: document.getElementById('editTelepon').value,
+                alamat: document.getElementById('editAlamat').value
+            })
+        });
+        const data = await res.json();
+        if (data.status !== 'success') {
+            showAlert(data.message || 'Gagal update profil', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Simpan Perubahan';
+            return;
+        }
+        showAlert('Profil berhasil diperbarui!', 'success');
+        localStorage.setItem('username', document.getElementById('editNama').value);
+        document.getElementById('displayName').textContent = document.getElementById('editNama').value;
+        document.getElementById('avatarLetter').textContent = document.getElementById('editNama').value.charAt(0).toUpperCase();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Simpan Perubahan';
+    } catch (e) {
+        showAlert('Gagal terhubung ke server.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-regular fa-floppy-disk"></i> Simpan Perubahan';
+    }
+});
+
+function showAlert(msg, type) {
+    const box = document.getElementById('alertBox');
+    box.textContent = msg;
+    box.className = 'alert alert-' + type;
+    box.style.display = 'block';
+    setTimeout(() => { box.style.display = 'none'; }, 4000);
+}
+
+/* ==================== PESAN DUA ARAH ==================== */
+async function loadPesan() {
+    try {
+        const token = localStorage.getItem('token');
+        const container = document.getElementById('pesanContainer');
+        const res = await fetch(API_BASE + '/messages.php', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (data.status !== 'success' || !data.data) {
+            container.innerHTML = '<p style="color:#999;font-size:13px;text-align:center;">Belum ada pesan.</p>';
+            return;
+        }
+        const threads = data.data;
+        if (threads.length === 0) {
+            container.innerHTML = '<p style="color:#999;font-size:13px;text-align:center;">Belum ada pesan.</p>';
+            return;
+        }
+        let html = '';
+        let hasLegacy = false;
+
+        threads.forEach(t => {
+            const isLegacy = !t.balasan && (!t.children || t.children.length === 0);
+            if (isLegacy && t.parent_id === null && (!t.children || t.children.length === 0)) {
+                hasLegacy = true;
+                html += `
+                    <div class="legacy-msg">
+                        <div class="subjek">${escHtml(t.subjek || 'Pesan')}</div>
+                        <div>${escHtml(t.pesan)}</div>
+                        ${t.balasan ? `<div class="balasan"><i class="fa-regular fa-message"></i> Balasan Admin: ${escHtml(t.balasan)}</div>` : ''}
+                        <div class="timestamp">${t.created_at || ''}</div>
+                    </div>`;
+                return;
+            }
+            const allMsgs = [{ ...t, side: 'user' }];
+            if (t.children) {
+                t.children.forEach(c => {
+                    allMsgs.push({ ...c, side: 'user' });
+                });
+            }
+            allMsgs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            let msgCount = 0;
+            allMsgs.forEach(m => { msgCount++; if (m.balasan) msgCount++; });
+            html += `<div class="chat-thread collapsed">`;
+            html += `
+                <div class="chat-thread-header" onclick="toggleThread(this)">
+                    <span class="thread-subjek">${escHtml(t.subjek || 'Pesan')}</span>
+                    <span class="thread-count">${msgCount}</span>
+                    <span class="thread-date">${t.created_at || ''}</span>
+                    <span class="thread-toggle"><i class="fa-solid fa-chevron-down"></i></span>
+                </div>
+                <div class="chat-thread-body">`;
+            allMsgs.forEach(m => {
+                html += `
+                    <div class="chat-msg user">
+                        <div class="chat-bubble">
+                            ${escHtml(m.pesan)}
+                            <span class="meta">${m.created_at || ''}</span>
+                        </div>
+                    </div>`;
+                if (m.balasan) {
+                    html += `
+                        <div class="chat-msg admin">
+                            <div class="chat-bubble" style="background:#C5A059;color:#fff;">
+                                ${escHtml(m.balasan)}
+                                <span class="meta" style="color:rgba(255,255,255,.7);">Admin</span>
+                            </div>
+                        </div>`;
+                }
+            });
+            html += `
+                <div class="chat-reply-form">
+                    <input type="text" id="replyInput_${t.id_pesan}" placeholder="Balas admin..." onkeypress="if(event.key==='Enter')sendReply(${t.id_pesan})">
+                    <button onclick="sendReply(${t.id_pesan})"><i class="fa-regular fa-paper-plane"></i> Balas</button>
+                </div>`;
+            html += `</div></div>`;
+        });
+
+        if (hasLegacy && threads.some(t => t.balasan || (t.children && t.children.length))) {
+        }
+
+        container.innerHTML = html;
+    } catch (e) {
+        document.getElementById('pesanContainer').innerHTML = '<p style="color:#dc3545;font-size:13px;text-align:center;">Gagal memuat pesan.</p>';
+    }
+}
+
+function toggleThread(header) {
+    const thread = header.parentElement;
+    thread.classList.toggle('collapsed');
+}
+
+async function sendReply(parentId) {
+    const input = document.getElementById('replyInput_' + parentId);
+    const pesan = input.value.trim();
+    if (!pesan) return;
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/messages.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+                nama: document.getElementById('displayName').textContent,
+                email: localStorage.getItem('email'),
+                subjek: '',
+                pesan: pesan,
+                parent_id: parentId
+            })
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            input.value = '';
+            loadPesan();
+        } else {
+            alert(data.message || 'Gagal mengirim balasan');
+        }
+    } catch (e) {
+        alert('Gagal terhubung ke server.');
+    }
+}
+
+function openNewPesanModal() {
+    document.getElementById('newPesanModal').classList.add('active');
+}
+
+function closeNewPesanModal() {
+    document.getElementById('newPesanModal').classList.remove('active');
+    document.getElementById('newSubjek').value = '';
+    document.getElementById('newPesan').value = '';
+}
+
+async function sendNewPesan() {
+    const subjek = document.getElementById('newSubjek').value.trim();
+    const pesan = document.getElementById('newPesan').value.trim();
+    if (!pesan) { alert('Pesan tidak boleh kosong'); return; }
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/messages.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+                nama: document.getElementById('displayName').textContent,
+                email: localStorage.getItem('email'),
+                subjek: subjek || 'Pesan dari tamu',
+                pesan: pesan
+            })
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            closeNewPesanModal();
+            loadPesan();
+        } else {
+            alert(data.message || 'Gagal mengirim pesan');
+        }
+    } catch (e) {
+        alert('Gagal terhubung ke server.');
+    }
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+}
+
+/* ==================== RIWAYAT BOOKING ==================== */
+async function loadRiwayat() {
+    try {
+        const token = localStorage.getItem('token');
+        const tbody = document.getElementById('riwayatBody');
+        const res = await fetch(API_BASE + '/bookings.php', { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        const resPay = await fetch(API_BASE + '/payments.php', { headers: { 'Authorization': 'Bearer ' + token } });
+        const payData = await resPay.json();
+        const payMap = {};
+        if (payData.status === 'success' && payData.data) {
+            payData.data.forEach(p => { payMap[p.reservasi_id] = p; });
+        }
+        if (data.status === 'success' && data.data && data.data.length) {
+            document.getElementById('statBooking').textContent = data.data.length;
+            tbody.innerHTML = data.data.map(b => {
+                let badgeClass = 'badge-baru';
+                if (b.status === 'Check-in') badgeClass = 'badge-checkin';
+                else if (b.status === 'Check-out') badgeClass = 'badge-checkout';
+                else if (b.status === 'Batal' || b.status === 'Dibatalkan') badgeClass = 'badge-batal';
+                const pay = payMap[b.id_reservasi];
+                const total = pay ? 'Rp ' + pay.total.toLocaleString('id-ID') : '-';
+                const invBtn = pay ? `<button class="action-btn gold" onclick="window.open('invoice.html?id=${b.id_reservasi}','_blank')" title="Invoice"><i class="fa-solid fa-file-invoice"></i></button>` : '';
+                const payBtn = (!pay && b.status === 'Baru') ? `<button class="action-btn success" onclick="window.location='payment.html?id=${b.id_reservasi}'" title="Bayar"><i class="fa-solid fa-credit-card"></i></button>` : '';
+                const cancelBtn = (b.status === 'Baru') ? `<button class="action-btn danger" onclick="tamuCancelBooking(${b.id_reservasi})" title="Batalkan"><i class="fa-solid fa-xmark"></i></button>` : '';
+                const checkin = new Date(b.tanggal_checkin).toLocaleDateString('id-ID');
+                const checkout = new Date(b.tanggal_checkout).toLocaleDateString('id-ID');
+                return `<tr>
+                    <td>#${b.id_reservasi}</td>
+                    <td>${b.nomor_kamar || '-'} (${b.nama_tipe || '-'})</td>
+                    <td>${checkin} - ${checkout}</td>
+                    <td><span class="badge ${badgeClass}">${b.status}</span></td>
+                    <td>${total}</td>
+                    <td>${cancelBtn} ${payBtn} ${invBtn}</td>
+                </tr>`;
+            }).join('');
+        } else {
+            tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:#999;">Belum ada riwayat booking.</td></tr>';
+        }
+    } catch (e) {
+        document.getElementById('riwayatBody').innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:#dc3545;">Gagal memuat riwayat.</td></tr>';
+    }
+}
+
+function confirmLogout() {
+    if (confirm('Yakin ingin logout?')) {
+        localStorage.clear();
+        window.location.href = 'index.html';
+    }
+}
+
+async function tamuCancelBooking(id) {
+    if (!confirm('Batalkan reservasi #' + id + '?')) return;
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/bookings.php?id=' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ action: 'cancel' })
+        });
+        const data = await res.json();
+        if (data.status === 'success') { showAlert(data.message || 'Booking dibatalkan!', 'success'); loadRiwayat(); }
+        else { alert(data.message || 'Pembatalan gagal'); }
+    } catch (e) { alert('Gagal terhubung ke server.'); }
+}
+</script>
+</body>
+</html>

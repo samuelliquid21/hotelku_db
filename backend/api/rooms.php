@@ -1,9 +1,4 @@
 <?php
-// ====================================================================
-// HOTELKU_API - Rooms (Kamar, Tipe Kamar, Fasilitas)
-// Role: admin → full, resepsionis → GET only, tamu → NO akses
-// Auth: Authorization: Bearer <token>
-// ====================================================================
 
 require_once '../config/database.php';
 require_once '../helpers/functions.php';
@@ -21,20 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $method = $_SERVER['REQUEST_METHOD'];
 $id = $_GET['id'] ?? null;
 
-// Auth check
-$user = verify_token();
-
 switch ($method) {
 
     case 'GET':
-        if ($user['role'] === 'tamu') {
-            json_error('Akses ditolak. Hanya admin/resepsionis', 403);
-        }
-
         if ($id) {
             $stmt = $pdo->prepare("
                 SELECT k.id_kamar, k.nomor_kamar, tk.nama_tipe, tk.harga, tk.kapasitas,
-                       sk.status AS status_kamar
+                       sk.status AS status_kamar, k.foto
                 FROM kamar k
                 JOIN tipe_kamar tk ON k.tipe_id = tk.id_tipe
                 JOIN status_kamar sk ON k.status_id = sk.id_status
@@ -59,7 +47,7 @@ switch ($method) {
             json_response(['status' => 'success', 'data' => $kamar]);
         } else {
             $stmt = $pdo->query("
-                SELECT k.id_kamar, k.nomor_kamar, tk.nama_tipe, tk.harga, sk.status AS status_kamar
+                SELECT k.id_kamar, k.nomor_kamar, tk.nama_tipe, tk.harga, sk.status AS status_kamar, k.foto
                 FROM kamar k
                 JOIN tipe_kamar tk ON k.tipe_id = tk.id_tipe
                 JOIN status_kamar sk ON k.status_id = sk.id_status
@@ -83,26 +71,45 @@ switch ($method) {
         break;
 
     case 'POST':
-        if ($user['role'] !== 'admin') {
-            json_error('Akses ditolak. Hanya admin boleh tambah kamar', 403);
+        $user = require_role(['admin']);
+
+        if (!empty($_FILES['foto'])) {
+            $nomor_kamar = $_POST['nomor_kamar'] ?? '';
+            $tipe_id = $_POST['tipe_id'] ?? '';
+            $status_id = $_POST['status_id'] ?? 1;
+            if (empty($nomor_kamar) || empty($tipe_id)) json_error('Field nomor_kamar dan tipe_id wajib diisi');
+
+            $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+            $filename = 'room_' . time() . '_' . rand(100, 999) . '.' . $ext;
+            $dest = __DIR__ . '/../../frontend/uploads/rooms/' . $filename;
+            move_uploaded_file($_FILES['foto']['tmp_name'], $dest);
+
+            $foto = 'uploads/rooms/' . $filename;
+        } else {
+            $input = get_json_input();
+            validate_required($input, ['nomor_kamar', 'tipe_id']);
+            $nomor_kamar = $input['nomor_kamar'];
+            $tipe_id = $input['tipe_id'];
+            $status_id = $input['status_id'] ?? 1;
+            $foto = $input['foto'] ?? null;
         }
 
-        $input = get_json_input();
-        validate_required($input, ['nomor_kamar', 'tipe_id']);
-
         $stmt = $pdo->prepare("
-            INSERT INTO kamar (nomor_kamar, tipe_id, status_id)
-            VALUES (:nomor_kamar, :tipe_id, :status_id)
+            INSERT INTO kamar (nomor_kamar, tipe_id, status_id, foto)
+            VALUES (:nomor_kamar, :tipe_id, :status_id, :foto)
         ");
         $stmt->execute([
-            'nomor_kamar' => $input['nomor_kamar'],
-            'tipe_id' => $input['tipe_id'],
-            'status_id' => $input['status_id'] ?? 1
+            'nomor_kamar' => $nomor_kamar,
+            'tipe_id' => $tipe_id,
+            'status_id' => $status_id,
+            'foto' => $foto
         ]);
+
+        $inserted_id = $pdo->lastInsertId();
 
         $stmt = $pdo->prepare("INSERT INTO audit_log (aktivitas, user_id, ip_address) VALUES (:akt, :uid, :ip)");
         $stmt->execute([
-            'akt' => 'Tambah kamar ' . $input['nomor_kamar'],
+            'akt' => 'Tambah kamar ' . $nomor_kamar,
             'uid' => $user['user_id'],
             'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
         ]);
@@ -110,24 +117,33 @@ switch ($method) {
         json_response([
             'status' => 'success',
             'message' => 'Kamar berhasil ditambahkan',
-            'id_kamar' => $pdo->lastInsertId()
+            'id_kamar' => $inserted_id,
+            'foto' => $foto
         ], 201);
         break;
 
     case 'PUT':
-        if ($user['role'] !== 'admin') {
-            json_error('Akses ditolak. Hanya admin boleh edit kamar', 403);
-        }
+        $user = require_role(['admin']);
         if (!$id) json_error('ID kamar diperlukan');
-
-        $input = get_json_input();
 
         $fields = [];
         $params = ['id' => $id];
 
+        if (!empty($_FILES['foto'])) {
+            $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+            $filename = 'room_' . time() . '_' . rand(100, 999) . '.' . $ext;
+            $dest = __DIR__ . '/../../frontend/uploads/rooms/' . $filename;
+            move_uploaded_file($_FILES['foto']['tmp_name'], $dest);
+            $fields[] = 'foto = :foto';
+            $params['foto'] = 'uploads/rooms/' . $filename;
+        }
+
+        $input = get_json_input();
+
         if (isset($input['nomor_kamar'])) { $fields[] = 'nomor_kamar = :nomor_kamar'; $params['nomor_kamar'] = $input['nomor_kamar']; }
         if (isset($input['tipe_id'])) { $fields[] = 'tipe_id = :tipe_id'; $params['tipe_id'] = $input['tipe_id']; }
         if (isset($input['status_id'])) { $fields[] = 'status_id = :status_id'; $params['status_id'] = $input['status_id']; }
+        if (isset($input['foto'])) { $fields[] = 'foto = :foto'; $params['foto'] = $input['foto']; }
 
         if (empty($fields)) json_error('Tidak ada data yang diupdate');
 
@@ -146,9 +162,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
-        if ($user['role'] !== 'admin') {
-            json_error('Akses ditolak. Hanya admin boleh hapus kamar', 403);
-        }
+        $user = require_role(['admin']);
         if (!$id) json_error('ID kamar diperlukan');
 
         $stmt = $pdo->prepare("DELETE FROM kamar WHERE id_kamar = :id");

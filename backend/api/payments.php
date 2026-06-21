@@ -65,17 +65,32 @@ switch ($method) {
         break;
 
     case 'POST':
-        if ($user['role'] === 'tamu') {
-            json_error('Akses ditolak. Hanya admin/resepsionis', 403);
-        }
-
         $input = get_json_input();
         validate_required($input, ['reservasi_id', 'metode_id', 'total']);
 
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM reservasi WHERE id_reservasi = :id");
+        // Validasi reservasi exists
+        $stmt = $pdo->prepare("SELECT id_reservasi, tamu_id FROM reservasi WHERE id_reservasi = :id");
         $stmt->execute(['id' => $input['reservasi_id']]);
-        if (!$stmt->fetchColumn()) {
+        $reservasi = $stmt->fetch();
+        if (!$reservasi) {
             json_error('Reservasi tidak ditemukan');
+        }
+
+        // Jika tamu, pastikan hanya bayar reservasi milik sendiri
+        if ($user['role'] === 'tamu') {
+            $stmt = $pdo->prepare("SELECT id_tamu FROM tamu WHERE user_id = :uid");
+            $stmt->execute(['uid' => $user['user_id']]);
+            $tamu_id = $stmt->fetchColumn();
+            if (!$tamu_id || $reservasi['tamu_id'] != $tamu_id) {
+                json_error('Akses ditolak. Anda hanya bisa membayar reservasi sendiri.', 403);
+            }
+        }
+
+        // Cek apakah sudah dibayar
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM pembayaran WHERE reservasi_id = :id");
+        $stmt->execute(['id' => $input['reservasi_id']]);
+        if ($stmt->fetchColumn()) {
+            json_error('Reservasi ini sudah dibayar');
         }
 
         $pdo->beginTransaction();

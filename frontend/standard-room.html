@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Standard Room</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Standard Room Hotelku - Kenyamanan Sederhana dengan Sentuhan Khas Hotelku yang Hangat.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#facilities-section">Rooms</a>
+            <a href="booking.html">Booking</a>
+        </div>
+    </nav>
+
+    <header class="booking-header">
+        <div class="room-z-badge">Paling Populer</div>
+        <h2>Standard Room</h2>
+        <p>Kombinasi Sempurna antara Kenyamanan Modern dan Fungsionalitas Tinggi</p>
+    </header>
+
+    <main class="container">
+        <div class="room-carousel-container">
+            <button class="carousel-btn btn-prev" onclick="moveSlide(-1)">❮</button>
+            <button class="carousel-btn btn-next" onclick="moveSlide(1)">❯</button>
+            
+            <div class="room-slider" id="roomSlider">
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=1000&auto=format&fit=crop" alt="Standard Room Bed">
+                    <div class="slide-caption">Kasur Ukuran King Size Utama dengan Linen Premium</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?q=80&w=1000&auto=format&fit=crop" alt="Standard Room Workspace">
+                    <div class="slide-caption">Area Meja Kerja Minimalis yang Terang Alami</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=1000&auto=format&fit=crop" alt="Bathroom Shower">
+                    <div class="slide-caption">Kamar Mandi Bersih Berdesain Modern</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://plus.unsplash.com/premium_photo-1675537843200-78c1a0ea1736?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Standard Room Detail">
+                    <div class="slide-caption">Sudut Estetika Kamar yang Menenangkan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="room-detail-info-box">
+            <div class="room-spec-meta">
+                <span>📐 24 m²</span>
+                <span>👤 Max 2 Tamu</span>
+            </div>
+            <h3>Deskripsi Lengkap</h3>
+            <p>
+                Menawarkan perpaduan sempurna antara fungsionalitas dan estetika modern yang menenangkan. Standard Room kami dilengkapi dengan kasur King Size berlapis linen premium yang menjamin kenyamanan istirahat maksimal Anda. Sudut kamar ini menyediakan area meja kerja minimalis yang terang benderang oleh cahaya alami jendela, sangat cocok untuk produktivitas Anda.
+            </p>
+            <div class="room-facilities-badges">
+                <div class="badge-item">⚡ WI-FI CEPAT</div>
+                <div class="badge-item">💼 MEJA KERJA</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.room-slide');
+        const totalSlides = slides.length;
+        const sliderContainer = document.getElementById('roomSlider');
+
+        function moveSlide(direction) {
+            currentIdx += direction;
+            if (currentIdx >= totalSlides) currentIdx = 0;
+            else if (currentIdx < 0) currentIdx = totalSlides - 1;
+            sliderContainer.style.transform = `translateX(-${currentIdx * 100}%)`;
+        }
+    </script>
+</body>
+</html>

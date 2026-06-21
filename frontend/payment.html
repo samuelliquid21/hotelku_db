@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Hotelku</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Selesaikan pembayaran reservasi kamar Hotelku Anda dengan aman dan mudah melalui transfer bank atau kartu kredit.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Pembayaran - Hotelku">
+    <meta property="og:description" content="Selesaikan pembayaran reservasi kamar Hotelku Anda dengan aman dan mudah melalui transfer bank atau kartu kredit.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 30px; }
+        .pay-wrapper { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }
+        .pay-header { background: linear-gradient(135deg, #1A1513 0%, #2a2018 100%); padding: 24px 30px; }
+        .pay-header .logo { font-size: 24px; font-weight: 700; color: #C5A059; }
+        .pay-header p { color: #8A7E72; font-size: 13px; margin-top: 4px; }
+        .pay-body { padding: 30px; }
+        .pay-body h2 { margin-bottom: 20px; color: #1A1513; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+        .info-row .label { color: #999; }
+        .info-row .value { font-weight: 600; color: #333; }
+        .info-row.total { border-bottom: 2px solid #C5A059; font-size: 16px; }
+        .info-row.total .value { color: #C5A059; font-size: 18px; }
+        .pay-form { margin-top: 24px; }
+        .pay-form select, .pay-form input { width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 16px; }
+        .pay-form select:focus, .pay-form input:focus { outline: none; border-color: #C5A059; }
+        .pay-form label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; font-weight: 600; }
+        .btn-pay { width: 100%; padding: 14px; background: #C5A059; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .btn-pay:hover { background: #b8904a; }
+        .btn-pay:disabled { opacity: 0.6; cursor: not-allowed; }
+        .back-link { display: block; text-align: center; margin-top: 16px; color: #999; font-size: 13px; text-decoration: none; }
+        .back-link:hover { color: #C5A059; }
+        .loading { text-align: center; padding: 40px; color: #999; }
+        .error-msg { background: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+        .success-msg { background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; text-align: center; }
+        .success-msg h3 { margin-bottom: 8px; }
+        .success-msg .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+        .success-msg .btn-group a { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+        .step-done { display: none; }
+    </style>
+</head>
+<body>
+<div class="pay-wrapper">
+    <div class="pay-header">
+        <div class="logo">Hotelku</div>
+        <p>Pembayaran Reservasi</p>
+    </div>
+    <div class="pay-body">
+        <div id="payError" class="alert alert-error" style="display:none;"></div>
+        <div id="stepDetail">
+            <h2>Detail Pembayaran</h2>
+            <div id="bookingInfo"></div>
+            <form class="pay-form" id="paymentForm">
+                <label for="payMetode">Metode Pembayaran</label>
+                <select id="payMetode" required>
+                    <option value="">-- Pilih Metode --</option>
+                    <option value="2">Transfer Bank</option>
+                    <option value="3">Kartu Kredit</option>
+                </select>
+                <label for="payTotal">Total Pembayaran (Rp)</label>
+                <input type="number" id="payTotal" readonly>
+                <button type="submit" class="btn-pay" id="btnPay">💳 Bayar Sekarang</button>
+                <a href="booking.html" class="back-link">← Kembali ke Booking</a>
+            </form>
+            <div id="payError" class="error-msg" style="display:none;"></div>
+        </div>
+        <div id="stepSuccess" class="step-done">
+            <div class="success-msg">
+                <h3>✅ Pembayaran Berhasil!</h3>
+                <p id="paySuccessMsg">Invoice telah dibuat.</p>
+                <div class="btn-group">
+                    <a href="invoice.html?id=" id="invLink" style="background:#C5A059;color:#fff;" target="_blank">📄 Lihat Invoice</a>
+                    <a href="booking.html" style="background:#1A1513;color:#C5A059;">← Kembali</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API_BASE = '../backend/api';
+
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Silakan login terlebih dahulu.');
+        window.location.href = 'sign-in.html';
+        return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const reservasiId = params.get('id');
+    if (!reservasiId) {
+        document.getElementById('bookingInfo').innerHTML = '<div class="error-msg">ID reservasi tidak ditemukan.</div>';
+        return;
+    }
+
+    loadBookingDetail(reservasiId);
+});
+
+async function loadBookingDetail(id) {
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/bookings.php', { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        if (data.status !== 'success') {
+            document.getElementById('bookingInfo').innerHTML = '<div class="error-msg">' + (data.message || 'Gagal memuat data') + '</div>';
+            return;
+        }
+
+        const booking = data.data.find(b => b.id_reservasi == id);
+        if (!booking) {
+            document.getElementById('bookingInfo').innerHTML = '<div class="error-msg">Reservasi tidak ditemukan.</div>';
+            return;
+        }
+
+        const checkin = new Date(booking.tanggal_checkin).toLocaleDateString('id-ID');
+        const checkout = new Date(booking.tanggal_checkout).toLocaleDateString('id-ID');
+        const selisih = Math.max(1, (new Date(booking.tanggal_checkout) - new Date(booking.tanggal_checkin)) / 86400000);
+        const total = parseInt(booking.harga) * selisih;
+
+        document.getElementById('bookingInfo').innerHTML = `
+            <div class="info-row"><span class="label">Reservasi</span><span class="value">#${booking.id_reservasi}</span></div>
+            <div class="info-row"><span class="label">Tamu</span><span class="value">${booking.tamu || '-'}</span></div>
+            <div class="info-row"><span class="label">Kamar</span><span class="value">${booking.nomor_kamar || '-'} (${booking.nama_tipe || '-'})</span></div>
+            <div class="info-row"><span class="label">Check-In</span><span class="value">${checkin}</span></div>
+            <div class="info-row"><span class="label">Check-Out</span><span class="value">${checkout}</span></div>
+            <div class="info-row"><span class="label">Status</span><span class="value">${booking.status}</span></div>
+            <div class="info-row total"><span class="label">Total Bayar</span><span class="value">Rp ${total.toLocaleString('id-ID')}</span></div>
+        `;
+        document.getElementById('payTotal').value = total;
+    } catch (e) {
+        document.getElementById('bookingInfo').innerHTML = '<div class="error-msg">Gagal terhubung ke server.</div>';
+    }
+}
+
+document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnPay');
+    btn.disabled = true;
+    btn.textContent = '⏳ Memproses...';
+
+    const params = new URLSearchParams(window.location.search);
+    const reservasiId = params.get('id');
+    const metode_id = parseInt(document.getElementById('payMetode').value);
+    const total = parseInt(document.getElementById('payTotal').value);
+
+    document.getElementById('payError').style.display = 'none';
+
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(API_BASE + '/payments.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ reservasi_id: parseInt(reservasiId), metode_id, total })
+        });
+        const data = await res.json();
+
+        if (data.status !== 'success') {
+            document.getElementById('payError').textContent = data.message || 'Pembayaran gagal';
+            document.getElementById('payError').style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = '💳 Bayar Sekarang';
+            return;
+        }
+
+        document.getElementById('stepDetail').style.display = 'none';
+        document.getElementById('stepSuccess').style.display = 'block';
+        document.getElementById('paySuccessMsg').textContent = 'Invoice ' + data.nomor_invoice + ' telah diterbitkan.';
+        document.getElementById('invLink').href = 'invoice.html?id=' + reservasiId;
+    } catch (e) {
+        document.getElementById('payError').textContent = 'Gagal terhubung ke server.';
+        document.getElementById('payError').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '💳 Bayar Sekarang';
+    }
+});
+</script>
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#C5A059;color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:999;">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script>window.addEventListener('scroll',function(){document.getElementById('scrollTopBtn').style.display=window.scrollY>300?'block':'none';});</script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/samuelliquid21" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Samuel</a>
+                    <a href="https://github.com/yusriyaturizki" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Yusri</a>
+                </div>
+                <div style="margin-top:8px;font-size:13px;color:#8A7E72;">
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:samuelliquid21@gmail.com" style="color:#C5A059;text-decoration:none;">samuelliquid21@gmail.com</a>
+                    <span style="margin:0 6px;">|</span>
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:yusriyaturizki@gmail.com" style="color:#C5A059;text-decoration:none;">yusriyaturizki@gmail.com</a>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#666;">
+                    Kelompok Basis Data UPNVJ &mdash; Hotelku v1.0
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#facilities-section">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                    <a href="about.html"><i class="fa-solid fa-building"></i> About Us</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="tos.html"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+                    <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

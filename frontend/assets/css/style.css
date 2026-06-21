@@ -1344,3 +1344,245 @@ a:hover {
     color: #6E615F;
     font-weight: 500;
 }
+
+/* ==========================================================================
+   RESPONSIVE MOBILE — DISESUAIKAN UNTUK HP
+   ========================================================================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 14px 16px;
+        flex-wrap: wrap;
+    }
+    .nav-links {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .nav-links a {
+        font-size: 13px;
+    }
+    .hero {
+        height: 50vh;
+        padding: 0 20px;
+    }
+    .hero h1 {
+        font-size: 28px;
+    }
+    .hero-welcome {
+        font-size: 13px;
+    }
+    .container {
+        padding: 0 16px;
+    }
+    .facilities-section {
+        padding: 30px 16px;
+    }
+    .facilities-section h2 {
+        font-size: 22px;
+    }
+    .slider-card {
+        flex: 0 0 220px;
+    }
+    .reviews-section {
+        padding: 30px 16px;
+    }
+    .reviews-section h2 {
+        font-size: 22px;
+    }
+    .review-card {
+        flex: 0 0 260px;
+        padding: 20px;
+    }
+    .hotel-description-section {
+        padding: 24px 0;
+    }
+    .hotel-description-section h2 {
+        font-size: 22px;
+    }
+    .map-section h2 {
+        font-size: 22px;
+    }
+    .map-container iframe {
+        height: 250px;
+    }
+    .footer-content {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .footer-about, .footer-section {
+        flex: none;
+        width: 100%;
+    }
+    .room-z-text h3 {
+        font-size: 24px;
+    }
+    .room-z-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    .room-spec-meta {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .room-slide img {
+        height: 280px;
+    }
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    .btn-prev { left: 10px; }
+    .btn-next { right: 10px; }
+    .room-facilities-badges {
+        flex-wrap: wrap;
+    }
+    .room-detail-info-box {
+        padding: 20px;
+        margin: 20px 16px;
+    }
+
+    .auth-wrapper {
+        padding: 0 16px;
+    }
+    .auth-card {
+        padding: 30px 20px;
+    }
+    .auth-form-container {
+        padding: 24px 16px;
+    }
+    .auth-form-container h2 {
+        font-size: 26px;
+    }
+    .modal-form .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .booking-header {
+        padding: 40px 20px;
+    }
+    .booking-header h1 {
+        font-size: 26px;
+    }
+    .available-rooms-container {
+        padding: 0 16px;
+    }
+    .accor-room-card {
+        flex-direction: column;
+    }
+    .accor-room-img {
+        flex: 0 0 200px;
+    }
+    .accor-room-details {
+        border-right: none;
+        border-bottom: 1px solid #E6DCD3;
+    }
+    .accor-room-pricing {
+        flex: 0 0 auto;
+        padding: 20px;
+    }
+
+    .booking-modal-content {
+        margin: 16px;
+        max-width: 100%;
+    }
+    .room-modal-content {
+        max-width: 100%;
+        margin: 16px;
+    }
+    .room-modal-img {
+        height: 200px;
+    }
+    .room-modal-body {
+        padding: 16px;
+    }
+
+    .booking-info-grid {
+        flex-direction: column;
+    }
+    .info-card {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+    }
+    .hero h1 {
+        font-size: 22px;
+    }
+    .slider-card {
+        flex: 0 0 180px;
+    }
+    .review-card {
+        flex: 0 0 220px;
+    }
+    .auth-card {
+        padding: 24px 16px;
+    }
+    .profile-icon-wrapper {
+        margin-left: 0;
+    }
+    .room-z-img {
+        height: 180px;
+    }
+    .room-z-text {
+        padding: 16px;
+    }
+    .room-z-text h3 {
+        font-size: 20px;
+    }
+    .z-price {
+        font-size: 20px;
+    }
+    .accor-room-details h3 {
+        font-size: 18px;
+    }
+    .room-detail-info-box {
+        padding: 16px;
+    }
+    .booking-header h1 {
+        font-size: 22px;
+    }
+    .booking-header p {
+        font-size: 14px;
+    }
+    .about-hero {
+        padding: 40px 16px !important;
+    }
+    .about-hero h1 {
+        font-size: 26px !important;
+    }
+    .about-content {
+        padding: 24px 16px !important;
+    }
+    .team-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .pay-wrapper {
+        padding: 24px 16px !important;
+    }
+    .invoice-wrapper {
+        padding: 24px 16px !important;
+    }
+    .table-wrap {
+        overflow-x: auto;
+    }
+    .table-wrap table {
+        font-size: 12px;
+    }
+    .profile-page {
+        padding: 16px !important;
+    }
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

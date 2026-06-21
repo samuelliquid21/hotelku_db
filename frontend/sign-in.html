@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Sign In</title>
+    <meta name="description" content="Masuk ke akun Hotelku untuk mengelola reservasi.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <meta property="og:title" content="Hotelku - Sign In">
+    <meta property="og:description" content="Masuk ke akun Hotelku Anda.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#facilities-section">Rooms</a>
+            <a href="booking.html">Booking</a>
+            <a href="sign-up.html" class="btn-signin">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-title">Hotelku</div>
+            <div id="signinError" style="display:none;padding:10px 16px;border-radius:8px;margin-bottom:16px;font-size:13px;background:#f8d7da;color:#721c24;"></div>
+            
+            <form onsubmit="handleSignIn(event)">
+                <div class="form-group">
+                    <label>Username / Email</label>
+                    <input type="text" id="email" placeholder="Masukkan username atau email" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-flex">
+                        <label>Password</label>
+                        <a href="forgot-password.html" style="font-size:12px;"><i class="fa-solid fa-key"></i> Lupa Password?</a>
+                    </div>
+                    <input type="password" id="password" placeholder="Masukkan password" required>
+                </div>
+
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="sign-up.html">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">Hotelku</div>
+                <p>Menyediakan pelayanan akomodasi bintang 5 berkualitas tinggi dengan sentuhan kemewahan emas yang hangat. Temukan kenyamanan istirahat terbaik Anda bersama kami.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/samuelliquid21" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Samuel</a>
+                    <a href="https://github.com/yusriyaturizki" target="_blank"><i class="fa-brands fa-github fa-fade"></i> Yusri</a>
+                </div>
+                <div style="margin-top:8px;font-size:13px;color:#8A7E72;">
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:samuelliquid21@gmail.com" style="color:#C5A059;text-decoration:none;">samuelliquid21@gmail.com</a>
+                    <span style="margin:0 6px;">|</span>
+                    <i class="fa-regular fa-at fa-fade"></i> <a href="mailto:yusriyaturizki@gmail.com" style="color:#C5A059;text-decoration:none;">yusriyaturizki@gmail.com</a>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#666;">
+                    Kelompok Basis Data UPNVJ &mdash; Hotelku v1.0
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#facilities-section">Rooms</a>
+                    <a href="booking.html">Booking</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="tos.html"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+                    <a href="privacy.html"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#C5A059;color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:999;">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script>window.addEventListener('scroll',function(){document.getElementById('scrollTopBtn').style.display=window.scrollY>300?'block':'none';});</script>
+
+    <script>
+    const API_BASE = '../backend/api';
+
+    async function handleSignIn(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const res = await fetch(API_BASE + '/auth.php?action=login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+
+            if (data.status !== 'success') {
+                document.getElementById('signinError').textContent = data.message || 'Login gagal';
+                document.getElementById('signinError').style.display = 'block';
+                return;
+            }
+
+            const user = data.data;
+            localStorage.setItem('token', user.token);
+            localStorage.setItem('user_id', user.id_user);
+            localStorage.setItem('username', user.username);
+            localStorage.setItem('email', user.email);
+            localStorage.setItem('role', user.role);
+            localStorage.setItem('tamu_id', user.tamu_id || '');
+            localStorage.setItem('pegawai_id', user.pegawai_id || '');
+            localStorage.setItem('pegawai_nama', user.pegawai_nama || '');
+            localStorage.setItem('jabatan_id', user.jabatan_id || '');
+
+            if (user.role === 'admin') {
+                window.location.href = 'admin-dashboard.html';
+            } else if (user.role === 'resepsionis' && user.jabatan_id == 3) {
+                window.location.href = 'housekeeping-dashboard.html';
+            } else if (user.role === 'resepsionis') {
+                window.location.href = 'receptionist-dashboard.html';
+            } else {
+                window.location.href = 'profile.html';
+            }
+        } catch (err) {
+            alert('Gagal terhubung ke server. Pastikan server PHP nyala.');
+        }
+    }
+    </script>
+</body>
+</html>

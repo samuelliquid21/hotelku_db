@@ -30,11 +30,14 @@ switch ($method) {
         if ($user['role'] === 'tamu') {
             $stmt = $pdo->prepare("
                 SELECT r.id_reservasi, t.nama AS tamu, sr.status, r.tanggal_pesan,
-                       dr.tanggal_checkin, dr.tanggal_checkout, dr.harga
+                       dr.tanggal_checkin, dr.tanggal_checkout, dr.harga,
+                       k.nomor_kamar, tk.nama_tipe
                 FROM reservasi r
                 JOIN tamu t ON r.tamu_id = t.id_tamu
                 JOIN status_reservasi sr ON r.status_reservasi_id = sr.id_status_reservasi
                 JOIN detail_reservasi dr ON dr.reservasi_id = r.id_reservasi
+                JOIN kamar k ON dr.kamar_id = k.id_kamar
+                JOIN tipe_kamar tk ON k.tipe_id = tk.id_tipe
                 WHERE t.user_id = :uid
                 ORDER BY r.tanggal_pesan DESC
             ");
@@ -60,11 +63,14 @@ switch ($method) {
         } else {
             $stmt = $pdo->query("
                 SELECT r.id_reservasi, t.nama AS tamu, sr.status, r.tanggal_pesan,
-                       dr.tanggal_checkin, dr.tanggal_checkout, dr.harga
+                       dr.tanggal_checkin, dr.tanggal_checkout, dr.harga,
+                       k.nomor_kamar, tk.nama_tipe
                 FROM reservasi r
                 JOIN tamu t ON r.tamu_id = t.id_tamu
                 JOIN status_reservasi sr ON r.status_reservasi_id = sr.id_status_reservasi
                 JOIN detail_reservasi dr ON dr.reservasi_id = r.id_reservasi
+                JOIN kamar k ON dr.kamar_id = k.id_kamar
+                JOIN tipe_kamar tk ON k.tipe_id = tk.id_tipe
                 ORDER BY r.tanggal_pesan DESC
             ");
         }
@@ -74,12 +80,17 @@ switch ($method) {
         break;
 
     case 'POST':
-        if ($user['role'] === 'tamu') {
-            json_error('Akses ditolak. Hanya admin/resepsionis', 403);
-        }
-
         $input = get_json_input();
         validate_required($input, ['tamu_id', 'kamar_id']);
+
+        if ($user['role'] === 'tamu') {
+            $stmt = $pdo->prepare("SELECT id_tamu FROM tamu WHERE user_id = :uid");
+            $stmt->execute(['uid' => $user['user_id']]);
+            $my_tamu_id = $stmt->fetchColumn();
+            if ((int)$input['tamu_id'] !== (int)$my_tamu_id) {
+                json_error('Anda hanya bisa booking untuk diri sendiri', 403);
+            }
+        }
 
         $checkin = $input['tanggal_checkin'] ?? date('Y-m-d');
         $checkout = $input['tanggal_checkout'] ?? date('Y-m-d', strtotime('+1 day'));
@@ -157,70 +168,122 @@ switch ($method) {
         break;
 
     case 'PUT':
-        if ($user['role'] === 'tamu') {
-            json_error('Akses ditolak. Hanya admin/resepsionis', 403);
-        }
         if (!$id) json_error('ID reservasi diperlukan');
-
         $input = get_json_input();
         $action = $input['action'] ?? '';
 
-        if ($action === 'checkin') {
-            $stmt = $pdo->query("SELECT id_status_reservasi FROM status_reservasi WHERE status = 'Check-in' LIMIT 1");
-            $status_checkin = $stmt->fetchColumn();
+        if ($action === 'cancel') {
+            $stmt = $pdo->prepare("SELECT r.id_reservasi, r.tamu_id, r.status_reservasi_id, sr.status FROM reservasi r JOIN status_reservasi sr ON r.status_reservasi_id = sr.id_status_reservasi WHERE r.id_reservasi = :id");
+            $stmt->execute(['id' => $id]);
+            $booking = $stmt->fetch();
 
-            $pdo->beginTransaction();
-            try {
-                $stmt = $pdo->prepare("UPDATE reservasi SET status_reservasi_id = :status_id WHERE id_reservasi = :id");
-                $stmt->execute(['status_id' => $status_checkin, 'id' => $id]);
+            if (!$booking) json_error('Reservasi tidak ditemukan', 404);
 
-                $pegawai_id = $input['pegawai_id'] ?? 1;
-                $stmt = $pdo->prepare("INSERT INTO checkin (reservasi_id, pegawai_id) VALUES (:reservasi_id, :pegawai_id)");
-                $stmt->execute(['reservasi_id' => $id, 'pegawai_id' => $pegawai_id]);
-
-                $pdo->commit();
-
-                $stmt = $pdo->prepare("INSERT INTO audit_log (aktivitas, user_id, ip_address) VALUES (:akt, :uid, :ip)");
-                $stmt->execute([
-                    'akt' => 'Check-in reservasi #' . $id,
-                    'uid' => $user['user_id'],
-                    'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
-                ]);
-
-                json_response(['status' => 'success', 'message' => 'Check-in berhasil']);
-            } catch (Exception $e) {
-                $pdo->rollBack();
-                json_error('Check-in gagal', 500);
+            if ($user['role'] === 'tamu') {
+                $stmt = $pdo->prepare("SELECT id_tamu FROM tamu WHERE user_id = :uid");
+                $stmt->execute(['uid' => $user['user_id']]);
+                $tamu_id = $stmt->fetchColumn();
+                if ((int)$booking['tamu_id'] !== (int)$tamu_id) {
+                    json_error('Akses ditolak. Anda hanya bisa membatalkan booking sendiri', 403);
+                }
             }
-        } elseif ($action === 'checkout') {
-            $stmt = $pdo->query("SELECT id_status_reservasi FROM status_reservasi WHERE status = 'Check-out' LIMIT 1");
-            $status_checkout = $stmt->fetchColumn();
+
+            if ($booking['status'] !== 'Baru') {
+                json_error('Hanya booking dengan status Baru yang dapat dibatalkan');
+            }
 
             $pdo->beginTransaction();
             try {
+                $stmt = $pdo->query("SELECT id_status_reservasi FROM status_reservasi WHERE status = 'Dibatalkan' LIMIT 1");
+                $status_batal = $stmt->fetchColumn();
+
                 $stmt = $pdo->prepare("UPDATE reservasi SET status_reservasi_id = :status_id WHERE id_reservasi = :id");
-                $stmt->execute(['status_id' => $status_checkout, 'id' => $id]);
+                $stmt->execute(['status_id' => $status_batal, 'id' => $id]);
 
-                $pegawai_id = $input['pegawai_id'] ?? 1;
-                $stmt = $pdo->prepare("INSERT INTO checkout (reservasi_id, pegawai_id) VALUES (:reservasi_id, :pegawai_id)");
-                $stmt->execute(['reservasi_id' => $id, 'pegawai_id' => $pegawai_id]);
+                $stmt = $pdo->prepare("SELECT id_pembayaran, total FROM pembayaran WHERE reservasi_id = :rid");
+                $stmt->execute(['rid' => $id]);
+                $payment = $stmt->fetch();
 
-                $pdo->commit();
+                $log_msg = 'Pembatalan reservasi #' . $id;
+                if ($payment) {
+                    $log_msg .= ' (refund Rp ' . number_format((float)$payment['total'], 0, ',', '.') . ')';
+                }
 
                 $stmt = $pdo->prepare("INSERT INTO audit_log (aktivitas, user_id, ip_address) VALUES (:akt, :uid, :ip)");
                 $stmt->execute([
-                    'akt' => 'Check-out reservasi #' . $id,
+                    'akt' => $log_msg,
                     'uid' => $user['user_id'],
                     'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
                 ]);
 
-                json_response(['status' => 'success', 'message' => 'Check-out berhasil']);
+                $pdo->commit();
+                json_response(['status' => 'success', 'message' => 'Booking berhasil dibatalkan' . ($payment ? ' (refund akan diproses)' : '')]);
             } catch (Exception $e) {
                 $pdo->rollBack();
-                json_error('Check-out gagal', 500);
+                json_error('Pembatalan gagal', 500);
             }
         } else {
-            json_error('Action harus checkin atau checkout');
+            if ($user['role'] === 'tamu') {
+                json_error('Akses ditolak. Hanya admin/resepsionis', 403);
+            }
+
+            if ($action === 'checkin') {
+                $stmt = $pdo->query("SELECT id_status_reservasi FROM status_reservasi WHERE status = 'Check-in' LIMIT 1");
+                $status_checkin = $stmt->fetchColumn();
+
+                $pdo->beginTransaction();
+                try {
+                    $stmt = $pdo->prepare("UPDATE reservasi SET status_reservasi_id = :status_id WHERE id_reservasi = :id");
+                    $stmt->execute(['status_id' => $status_checkin, 'id' => $id]);
+
+                    $pegawai_id = $input['pegawai_id'] ?? 1;
+                    $stmt = $pdo->prepare("INSERT INTO checkin (reservasi_id, pegawai_id) VALUES (:reservasi_id, :pegawai_id)");
+                    $stmt->execute(['reservasi_id' => $id, 'pegawai_id' => $pegawai_id]);
+
+                    $pdo->commit();
+
+                    $stmt = $pdo->prepare("INSERT INTO audit_log (aktivitas, user_id, ip_address) VALUES (:akt, :uid, :ip)");
+                    $stmt->execute([
+                        'akt' => 'Check-in reservasi #' . $id,
+                        'uid' => $user['user_id'],
+                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
+                    ]);
+
+                    json_response(['status' => 'success', 'message' => 'Check-in berhasil']);
+                } catch (Exception $e) {
+                    $pdo->rollBack();
+                    json_error('Check-in gagal', 500);
+                }
+            } elseif ($action === 'checkout') {
+                $stmt = $pdo->query("SELECT id_status_reservasi FROM status_reservasi WHERE status = 'Check-out' LIMIT 1");
+                $status_checkout = $stmt->fetchColumn();
+
+                $pdo->beginTransaction();
+                try {
+                    $stmt = $pdo->prepare("UPDATE reservasi SET status_reservasi_id = :status_id WHERE id_reservasi = :id");
+                    $stmt->execute(['status_id' => $status_checkout, 'id' => $id]);
+
+                    $pegawai_id = $input['pegawai_id'] ?? 1;
+                    $stmt = $pdo->prepare("INSERT INTO checkout (reservasi_id, pegawai_id) VALUES (:reservasi_id, :pegawai_id)");
+                    $stmt->execute(['reservasi_id' => $id, 'pegawai_id' => $pegawai_id]);
+
+                    $pdo->commit();
+
+                    $stmt = $pdo->prepare("INSERT INTO audit_log (aktivitas, user_id, ip_address) VALUES (:akt, :uid, :ip)");
+                    $stmt->execute([
+                        'akt' => 'Check-out reservasi #' . $id,
+                        'uid' => $user['user_id'],
+                        'ip' => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
+                    ]);
+
+                    json_response(['status' => 'success', 'message' => 'Check-out berhasil']);
+                } catch (Exception $e) {
+                    $pdo->rollBack();
+                    json_error('Check-out gagal', 500);
+                }
+            } else {
+                json_error('Action harus checkin, checkout, atau cancel');
+            }
         }
         break;
 

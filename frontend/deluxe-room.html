@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotelku - Deluxe Room</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="description" content="Deluxe Room Hotelku - Kemewahan Ekstra dengan Lanskap Pemandangan Kota yang Menawan.">
+    <meta name="author" content="Kelompok Basis Data UPNVJ">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Hotelku</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#facilities-section">Rooms</a>
+            <a href="booking.html">Booking</a>
+        </div>
+    </nav>
+
+    <header class="booking-header">
+        <div class="room-z-badge">PILIHAN TERBAIK</div>
+        <h2>Deluxe Room</h2>
+        <p>Kemewahan Ekstra dengan Lanskap Pemandangan Kota yang Menawan</p>
+    </header>
+
+    <main class="container">
+        <div class="room-carousel-container">
+            <button class="carousel-btn btn-prev" onclick="moveSlide(-1)">❮</button>
+            <button class="carousel-btn btn-next" onclick="moveSlide(1)">❯</button>
+            
+            <div class="room-slider" id="roomSlider">
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1000&auto=format&fit=crop" alt="Deluxe Room Bed">
+                    <div class="slide-caption">Kamar Tidur Utama & Sofa Mewah Bernuansa Cream-Emas</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000&auto=format&fit=crop" alt="City View Window">
+                    <div class="slide-caption">Jendela Kaca Besar dengan Lanskap Pemandangan Kota</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop" alt="Smart TV Entertainment">
+                    <div class="slide-caption">Smart TV Beresolusi Tinggi untuk Hiburan Malam Anda</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1517914309062-880ea7b0380f?q=80&w=1000&auto=format&fit=crop" alt="Coffee Maker Machine">
+                    <div class="slide-caption">Mesin Pembuat Kopi Otomatis Esensial untuk Mengawali Pagi</div>
+                </div>
+                <div class="room-slide">
+                    <img src="https://images.unsplash.com/photo-1620626011761-996317b1d101?q=80&w=1000&auto=format&fit=crop" alt="Deluxe Bathroom">
+                    <div class="slide-caption">Kamar Mandi Modern dan Premium</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="room-detail-info-box">
+            <div class="room-spec-meta">
+                <span>📐 32 m²</span>
+                <span>👤 Max 2 Tamu</span>
+            </div>
+            <h3>Deskripsi Lengkap</h3>
+            <p>
+                Rasakan atmosfer kemewahan yang lebih luas dengan balutan interior bernuansa cream-emas yang hangat. Deluxe Room menyajikan pemandangan lanskap kota yang spektakuler langsung dari balik jendela kaca besar Anda. Dilengkapi dengan Smart TV beresolusi tinggi untuk hiburan malam Anda, serta mesin pembuat kopi otomatis esensial untuk mengawali pagi hari Anda dengan sempurna.
+            </p>
+            <div class="room-facilities-badges">
+                <div class="badge-item">📺 SMART TV 43"</div>
+                <div class="badge-item">☕ MESIN KOPI</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.room-slide');
+        const totalSlides = slides.length;
+        const sliderContainer = document.getElementById('roomSlider');
+
+        function moveSlide(direction) {
+            currentIdx += direction;
+            if (currentIdx >= totalSlides) currentIdx = 0;
+            else if (currentIdx < 0) currentIdx = totalSlides - 1;
+            sliderContainer.style.transform = `translateX(-${currentIdx * 100}%)`;
+        }
+    </script>
+</body>
+</html>
